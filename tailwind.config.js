@@ -6,7 +6,29 @@ module.exports = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      maxWidth: {
+        container: '1520px',
+        contentContainer: '1280px',
+      },
+      screens: {
+        xs: '320px',
+        sm: '375px',
+        sml: '500px',
+        md: '667px',
+        mdl: '768px',
+        lg: '960px',
+        lgl: '1024px',
+        xl: '1280px',
+        '2xl': '1400px',
+      },
+      colors: {
+        primary: '#222831',
+        secondary: '#393E46',
+        highlight: '#FFD369',
+        light: '#EEEEEE',
+      },
+    },
+    plugins: [],
   },
-  plugins: [],
 };

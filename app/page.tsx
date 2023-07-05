@@ -1,3 +1,7 @@
 export default function Home() {
-  return <div>home page</div>;
+  return (
+    <div className="mt-28">
+      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sapiente, amet!
+    </div>
+  );
 }
