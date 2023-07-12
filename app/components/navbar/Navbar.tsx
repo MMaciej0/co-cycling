@@ -4,7 +4,7 @@ import { ImSearch } from 'react-icons/im';
 
 const Navbar = () => {
   return (
-    <div className="px-6 pt-4 fixed left-0 top-0 w-full bg-primary z-50">
+    <div className="px-6 pt-4 fixed left-0 top-0 w-full bg-primary">
       <div className="max-w-contentContainer mx-auto relative">
         <div className="flex justify-between items-center">
           <Logo />
