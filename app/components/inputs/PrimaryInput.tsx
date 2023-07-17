@@ -1,6 +1,11 @@
 'use client';
 
-import { FieldValues, UseFormRegister, ValidationRule } from 'react-hook-form';
+import {
+  FieldErrors,
+  FieldValues,
+  UseFormRegister,
+  ValidationRule,
+} from 'react-hook-form';
 
 interface PrimaryInputProps {
   id: string;
@@ -10,6 +15,7 @@ interface PrimaryInputProps {
   required?: boolean;
   register: UseFormRegister<FieldValues>;
   pattern?: ValidationRule<RegExp>;
+  error: FieldErrors;
 }
 
 const PrimaryInput: React.FC<PrimaryInputProps> = ({
@@ -20,7 +26,9 @@ const PrimaryInput: React.FC<PrimaryInputProps> = ({
   required,
   pattern,
   type,
+  error,
 }) => {
+  console.log(error);
   return (
     <div className="relative mx-4 my-6">
       <input
@@ -29,7 +37,9 @@ const PrimaryInput: React.FC<PrimaryInputProps> = ({
         placeholder=" "
         type={type ?? 'text'}
         {...register(id, { required, pattern })}
-        className="peer w-full bg-secondary rounded-md py-4 px-6 outline-none text-lg tracking-wider border-[1px] border-transparent focus:border-highlight"
+        className={`peer w-full bg-secondary rounded-md py-4 px-6 outline-none text-lg tracking-wider border-[1px] ${
+          error[id] ? 'border-rose-500' : 'border-transparent'
+        } ${error[id] ? 'focus:border-rose-500' : 'focus:border-highlight'}`}
       />
       <label
         htmlFor={id}

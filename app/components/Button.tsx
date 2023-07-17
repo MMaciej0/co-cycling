@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import { IconType } from 'react-icons';
 
 interface ButtonProps {
@@ -8,6 +9,7 @@ interface ButtonProps {
   type: 'button' | 'reset' | 'submit';
   outline?: boolean;
   icon?: IconType;
+  disabled?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -16,22 +18,25 @@ const Button: React.FC<ButtonProps> = ({
   type,
   outline,
   icon: Icon,
+  disabled,
 }) => {
-  console.log(label);
   return (
     <button
       type={type}
       onClick={onClick}
+      disabled={disabled}
       className={`relative w-full py-4 tracking-widest font-semibold rounded-md ${
         outline
           ? 'border-[1px] border-highlight hover:text-primary'
           : 'bg-highlight/70 text-primary'
       } hover:bg-highlight transition duration-300`}
     >
-      {Icon && <Icon className="absolute top-4 left-8" size={20} />}
+      {Icon && (
+        <Icon className="hidden sml:block absolute top-4 left-8" size={20} />
+      )}
       {label}
     </button>
   );
 };
 
-export default Button;
+export default memo(Button);
