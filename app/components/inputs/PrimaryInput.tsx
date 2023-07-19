@@ -28,7 +28,6 @@ const PrimaryInput: React.FC<PrimaryInputProps> = ({
   type,
   error,
 }) => {
-  console.log(error);
   return (
     <div className="relative mx-4 my-6">
       <input

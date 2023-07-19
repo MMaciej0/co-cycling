@@ -4,6 +4,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { BsStrava, BsGoogle } from 'react-icons/bs';
+import { toast } from 'react-hot-toast';
 import PrimaryInput from '../inputs/PrimaryInput';
 import Modal from './Modal';
 import Button from '../Button';
@@ -27,11 +28,13 @@ const RegisterModal = () => {
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
-    console.log(data);
-    setIsLoading(false);
-  };
 
-  console.log(errors);
+    axios
+      .post('/api/register', data)
+      .then(() => registerModal.onClose())
+      .catch((error) => toast('Something went wrong. Plase try again.'))
+      .finally(() => setIsLoading(false));
+  };
 
   const modalBody = (
     <>
