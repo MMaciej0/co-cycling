@@ -13,7 +13,7 @@ export const authOptions: NextAuthOptions = {
       name: 'Creadentials',
       credentials: {
         email: { label: 'Email', type: 'text' },
-        password: { label: 'Password', type: 'text' },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials, req) {
         if (!credentials?.email || !credentials.password) {
@@ -26,7 +26,7 @@ export const authOptions: NextAuthOptions = {
         });
 
         if (!user || !user.hashedPassword) {
-          throw new Error('No user');
+          throw new Error('No user or wrong password');
         }
 
         const correctPassword = await bcrypt.compare(

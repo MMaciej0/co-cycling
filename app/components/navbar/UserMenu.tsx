@@ -5,10 +5,12 @@ import { useState } from 'react';
 import { BiSolidChevronDown } from 'react-icons/bi';
 import UserMenuItem from './UserMenuItem';
 import useRegisterModal from '@/app/hooks/useRegisterModal';
+import useLoginModal from '@/app/hooks/useLoginModal';
 
 const UserMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
 
   const toggleOpen = () => setIsOpen(!isOpen);
 
@@ -37,7 +39,7 @@ const UserMenu = () => {
       {isOpen && (
         <ul className="absolute top-16 right-3 bg-primary border-[1px] border-highlight rounded-md overflow-hidden">
           <UserMenuItem label="Register" onClick={registerModal.onOpen} />
-          <UserMenuItem label="Login" />
+          <UserMenuItem label="Login" onClick={loginModal.onOpen} />
         </ul>
       )}
     </div>
