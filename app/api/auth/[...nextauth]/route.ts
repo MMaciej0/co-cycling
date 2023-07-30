@@ -9,6 +9,14 @@ import { prisma } from '@/app/libs/db';
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
+    StravaProvider({
+      clientId: process.env.STRAVA_CLIENT_ID as string,
+      clientSecret: process.env.STRAVA_CLIENT_SECRET as string,
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    }),
     CredentialsProvider({
       name: 'Creadentials',
       credentials: {
@@ -46,6 +54,16 @@ export const authOptions: NextAuthOptions = {
   pages: { signIn: '/' },
   debug: process.env.NODE_ENV === 'development',
   secret: process.env.NEXTAUTH_SECRET,
+  callbacks: {
+    jwt({ token, session }) {
+      console.log('jwt', { token, session });
+      return token;
+    },
+    session({ session, token }) {
+      console.log('session', { token, session });
+      return session;
+    },
+  },
 };
 
 const handler = NextAuth(authOptions);

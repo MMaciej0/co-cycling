@@ -9,6 +9,7 @@ import PrimaryInput from '../inputs/PrimaryInput';
 import Modal from './Modal';
 import Button from '../Button';
 import useRegisterModal from '@/app/hooks/useRegisterModal';
+import { signIn } from 'next-auth/react';
 
 const RegisterModal = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -73,16 +74,8 @@ const RegisterModal = () => {
     <div className="flex flex-col space-y-6">
       <Button
         type="button"
-        label="Continue with Strava"
-        onClick={() => {}}
-        icon={BsStrava}
-        outline
-        disabled={isLoading}
-      />
-      <Button
-        type="button"
         label="Continue with Google"
-        onClick={() => {}}
+        onClick={() => signIn('google')}
         icon={BsGoogle}
         outline
         disabled={isLoading}
