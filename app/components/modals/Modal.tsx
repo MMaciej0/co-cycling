@@ -56,7 +56,7 @@ const Modal: React.FC<ModalProps> = ({
   }
 
   return (
-    <div className="fixed inset-0 bg-secondary/95 overflow-y-auto flex justify-center items-center">
+    <div className="fixed inset-0 bg-secondary/95 flex justify-center items-center z-50">
       <div className="w-full md:w-4/6 lg:w-3/6 lgl:w-3/6 xl:w-2/6 h-full md:h-auto">
         <div
           className={`${showModal ? 'translate-y-0' : 'translate-y-full'} ${

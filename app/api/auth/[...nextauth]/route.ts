@@ -54,16 +54,6 @@ export const authOptions: NextAuthOptions = {
   pages: { signIn: '/' },
   debug: process.env.NODE_ENV === 'development',
   secret: process.env.NEXTAUTH_SECRET,
-  callbacks: {
-    jwt({ token, session }) {
-      console.log('jwt', { token, session });
-      return token;
-    },
-    session({ session, token }) {
-      console.log('session', { token, session });
-      return session;
-    },
-  },
 };
 
 const handler = NextAuth(authOptions);

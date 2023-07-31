@@ -29,7 +29,7 @@ const PrimaryInput: React.FC<PrimaryInputProps> = ({
   error,
 }) => {
   return (
-    <div className="relative mx-4 my-6">
+    <div className="relative my-6">
       <input
         id={id}
         disabled={disabled}
