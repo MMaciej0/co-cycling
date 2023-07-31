@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import axios from 'axios';
+import { signIn } from 'next-auth/react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { BsStrava, BsGoogle } from 'react-icons/bs';
 import { toast } from 'react-hot-toast';
@@ -9,11 +10,12 @@ import PrimaryInput from '../inputs/PrimaryInput';
 import Modal from './Modal';
 import Button from '../Button';
 import useRegisterModal from '@/app/hooks/useRegisterModal';
-import { signIn } from 'next-auth/react';
+import useLoginModal from '@/app/hooks/useLoginModal';
 
 const RegisterModal = () => {
   const [isLoading, setIsLoading] = useState(false);
   const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
 
   const {
     register,
@@ -35,6 +37,11 @@ const RegisterModal = () => {
       .then(() => registerModal.onClose())
       .catch((error) => toast('Something went wrong. Plase try again.'))
       .finally(() => setIsLoading(false));
+  };
+
+  const handleModalChange = () => {
+    registerModal.onClose();
+    loginModal.onOpen();
   };
 
   const modalBody = (
@@ -80,6 +87,15 @@ const RegisterModal = () => {
         outline
         disabled={isLoading}
       />
+      <p className="text-center pt-4">
+        Already have an account?
+        <span
+          onClick={handleModalChange}
+          className="text-highlight cursor-pointer ml-2 hover:underline"
+        >
+          Login
+        </span>
+      </p>
     </div>
   );
 

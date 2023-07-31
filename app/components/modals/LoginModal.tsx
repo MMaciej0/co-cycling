@@ -10,10 +10,12 @@ import PrimaryInput from '../inputs/PrimaryInput';
 import Modal from './Modal';
 import Button from '../Button';
 import useLoginModal from '@/app/hooks/useLoginModal';
+import useRegisterModal from '@/app/hooks/useRegisterModal';
 
 const LoginModal = () => {
   const [isLoading, setIsLoading] = useState(false);
   const loginModal = useLoginModal();
+  const registerModal = useRegisterModal();
   const router = useRouter();
 
   const {
@@ -41,6 +43,11 @@ const LoginModal = () => {
         }
       }
     );
+  };
+
+  const handleModalChange = () => {
+    loginModal.onClose();
+    registerModal.onOpen();
   };
 
   const modalBody = (
@@ -77,6 +84,15 @@ const LoginModal = () => {
         outline
         disabled={isLoading}
       />
+      <p className="text-center pt-4">
+        You do not have an account??
+        <span
+          onClick={handleModalChange}
+          className="text-highlight cursor-pointer ml-2 hover:underline"
+        >
+          Register
+        </span>
+      </p>
     </div>
   );
 
