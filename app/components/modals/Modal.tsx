@@ -15,6 +15,8 @@ interface ModalProps {
   body: React.ReactNode;
   actionLabel: string;
   footer?: React.ReactNode;
+  secondaryActionLabel?: string;
+  secondaryAction?: () => void;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -27,6 +29,8 @@ const Modal: React.FC<ModalProps> = ({
   subheading,
   actionLabel,
   footer,
+  secondaryAction,
+  secondaryActionLabel,
 }) => {
   const [showModal, setShowModal] = useState(isOpen);
 
@@ -77,7 +81,21 @@ const Modal: React.FC<ModalProps> = ({
             {/* body */}
             <div className="w-full py-4 px-8">
               {body}
-              <div className="mt-10 mx-4">
+              <div
+                className={`mt-10 ${
+                  secondaryAction && secondaryActionLabel && 'flex'
+                }`}
+              >
+                {secondaryAction && secondaryActionLabel && (
+                  <div className="mr-4 w-full">
+                    <Button
+                      label={secondaryActionLabel}
+                      onClick={secondaryAction}
+                      type="button"
+                      outline
+                    />
+                  </div>
+                )}
                 <Button
                   label={actionLabel}
                   onClick={handleSubmit}
@@ -89,9 +107,7 @@ const Modal: React.FC<ModalProps> = ({
             {/* footer */}
             {footer && (
               <div className="w-full py-4 px-8">
-                <div className="pt-10 mx-4 border-t border-secondary">
-                  {footer}
-                </div>
+                <div className="pt-10 border-t border-secondary">{footer}</div>
               </div>
             )}
           </div>

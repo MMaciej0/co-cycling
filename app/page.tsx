@@ -1,6 +1,10 @@
 import HomeForm from './components/home/HomeForm';
+import getCurrentUser from './actions/getCurrentUser';
+import { SafeUser } from './types';
 
-export default function Home() {
+export default async function Home() {
+  const user = await getCurrentUser();
+
   return (
     <div className="pt-32 md:pt40 px-6 md:px-12 pb-10 max-w-contentContainer m-auto lg:h-screen lg:overflow-hidden overflow-y-auto lg:flex lg:flex-col lg:justify-center">
       <div className="grid grid-rows-1 lg:grid-cols-2">
@@ -14,7 +18,9 @@ export default function Home() {
             create your own one!
           </h2>
         </div>
-        <HomeForm />
+        <div className="lg:ml-16">
+          <HomeForm currentUser={user as SafeUser} />
+        </div>
       </div>
     </div>
   );

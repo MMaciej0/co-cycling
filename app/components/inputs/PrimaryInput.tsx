@@ -42,7 +42,7 @@ const PrimaryInput: React.FC<PrimaryInputProps> = ({
       />
       <label
         htmlFor={id}
-        className={`cursor-pointer absolute left-6 top-4 p-1 font-semibold tracking-wider text-primary bg-highlight rounded transform orgin-[0] duration-200 -translate-y-9 scale-75 peer-placeholder-shown:bg-transparent peer-placeholder-shown:text-light peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0`}
+        className={`cursor-pointer absolute left-6 top-4 p-1 font-semibold tracking-wider text-primary bg-highlight rounded transform orgin-[0] duration-200 -translate-y-9 scale-75 peer-placeholder-shown:bg-transparent peer-placeholder-shown:text-light/50 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0`}
       >
         {label}
       </label>
