@@ -17,6 +17,7 @@
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
+    "cities.json": "^1.1.23",
     "classnames": "^2.3.2",
     "eslint": "8.44.0",
     "eslint-config-next": "13.4.7",

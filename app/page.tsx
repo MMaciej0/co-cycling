@@ -1,4 +1,4 @@
-import HomeForm from './components/home/HomeForm';
+import HomeForm from './components/homePage/HomeForm';
 import getCurrentUser from './actions/getCurrentUser';
 import { SafeUser } from './types';
 

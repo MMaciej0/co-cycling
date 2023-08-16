@@ -8,6 +8,8 @@ import PrimarySelect from '../selects/PrimarySelect';
 import useCreateModal from '@/app/hooks/useCreateModal';
 import useLoginModal from '@/app/hooks/useLoginModal';
 import { SafeUser } from '@/app/types';
+import useCities from '@/app/hooks/useCities';
+import CitySelect from '../selects/CitySelect';
 
 export const bikeTypesOptions = [
   { value: 'road', label: 'Road' },
@@ -26,6 +28,7 @@ const HomeForm: React.FC<HomeFormProps> = ({ currentUser }) => {
   const [isLoading, setIsLoading] = useState(false);
   const createModal = useCreateModal();
   const loginModal = useLoginModal();
+  const { getAll } = useCities();
 
   const {
     register,
@@ -57,14 +60,13 @@ const HomeForm: React.FC<HomeFormProps> = ({ currentUser }) => {
     <>
       <div>
         <h3>Enter the starting city:</h3>
-        <PrimaryInput
-          id="city"
-          label="City"
-          register={register}
-          error={errors}
+        <CitySelect
+          name="city"
+          control={control}
+          placeholder="Enter city..."
           disabled={isLoading}
-          pattern={new RegExp(/^[a-z ,.'-]+$/i)}
           required
+          errors={errors}
         />
       </div>
       <div>
@@ -80,8 +82,8 @@ const HomeForm: React.FC<HomeFormProps> = ({ currentUser }) => {
       <div>
         <h3>Specify the type of bike:</h3>
         <PrimarySelect
-          name="type"
           control={control}
+          name="type"
           options={bikeTypesOptions}
           placeholder="Choose type..."
           disabled={isLoading}
