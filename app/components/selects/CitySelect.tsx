@@ -23,6 +23,7 @@ interface CitySelectProps {
   required?: boolean;
   name: string;
   errors: FieldErrors;
+  preChange?: (name: string, value: unknown) => void;
 }
 
 const CitySelect: React.FC<CitySelectProps> = ({
@@ -32,6 +33,7 @@ const CitySelect: React.FC<CitySelectProps> = ({
   required,
   name,
   errors,
+  preChange,
 }) => {
   const { getBySubstring } = useCities();
   const customStyles = getCustomStyles(errors, name);
@@ -65,7 +67,12 @@ const CitySelect: React.FC<CitySelectProps> = ({
           name={name}
           ref={ref}
           value={value}
-          onChange={onChange}
+          onChange={(newValue) => {
+            if (preChange) {
+              preChange('city', newValue);
+            }
+            onChange(newValue);
+          }}
           isDisabled={disabled}
           required={required}
           instanceId={id}

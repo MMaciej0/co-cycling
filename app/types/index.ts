@@ -1,3 +1,8 @@
 import { User } from '@prisma/client';
 
-export type SafeUser = Omit<User, 'id' | 'hashedPassword'>;
+export type SafeUser = Omit<User, 'hashedPassword'>;
+
+export interface Location {
+  lat: number;
+  lng: number;
+}

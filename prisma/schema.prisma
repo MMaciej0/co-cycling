@@ -21,6 +21,7 @@ model User {
   updatedAt      DateTime  @updatedAt
   favouriteIds   String[]  @db.ObjectId
   accounts       Account[]
+  Listings       Listing[]
 }
 
 model Account {
@@ -40,4 +41,31 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+}
+
+model Listing {
+  id                 String        @id @default(auto()) @map("_id") @db.ObjectId
+  title              String
+  city               String
+  district           String?
+  meetingPoint       MeetingPoint?
+  meetingDescription String
+  bikeType           String
+  rideType           String
+  pace               String?
+  route              String?
+  description        String?
+  createdAt          DateTime      @default(now())
+  userId             String        @db.ObjectId
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model MeetingPoint {
+  id  String @id @default(auto()) @map("_id") @db.ObjectId
+  lat Float
+  lng Float
+
+  listing   Listing? @relation(fields: [listingId], references: [id])
+  listingId String   @unique @db.ObjectId
 }

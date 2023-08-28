@@ -5,11 +5,11 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import PrimaryInput from '../inputs/PrimaryInput';
 import Button from '../Button';
 import PrimarySelect from '../selects/PrimarySelect';
+import CitySelect from '../selects/CitySelect';
+import Heading from '../Heading';
 import useCreateModal from '@/app/hooks/useCreateModal';
 import useLoginModal from '@/app/hooks/useLoginModal';
 import { SafeUser } from '@/app/types';
-import useCities from '@/app/hooks/useCities';
-import CitySelect from '../selects/CitySelect';
 
 export const bikeTypesOptions = [
   { value: 'road', label: 'Road' },
@@ -28,7 +28,6 @@ const HomeForm: React.FC<HomeFormProps> = ({ currentUser }) => {
   const [isLoading, setIsLoading] = useState(false);
   const createModal = useCreateModal();
   const loginModal = useLoginModal();
-  const { getAll } = useCities();
 
   const {
     register,
@@ -58,39 +57,36 @@ const HomeForm: React.FC<HomeFormProps> = ({ currentUser }) => {
 
   return (
     <>
-      <div>
-        <h3>Enter the starting city:</h3>
-        <CitySelect
-          name="city"
-          control={control}
-          placeholder="Enter city..."
-          disabled={isLoading}
-          required
-          errors={errors}
-        />
-      </div>
-      <div>
-        <h3>Enter the district of the starting city (optional):</h3>
-        <PrimaryInput
-          id="district"
-          label="District"
-          register={register}
-          error={errors}
-          disabled={isLoading}
-        />
-      </div>
-      <div>
-        <h3>Specify the type of bike:</h3>
-        <PrimarySelect
-          control={control}
-          name="type"
-          options={bikeTypesOptions}
-          placeholder="Choose type..."
-          disabled={isLoading}
-          required
-          errors={errors}
-        />
-      </div>
+      <Heading heading="Enter the starting city:" light />
+      <CitySelect
+        name="city"
+        control={control}
+        placeholder="Enter city..."
+        disabled={isLoading}
+        required
+        errors={errors}
+      />
+      <Heading
+        heading="Enter the district of the starting city (optional):"
+        light
+      />
+      <PrimaryInput
+        id="district"
+        label="District"
+        register={register}
+        error={errors}
+        disabled={isLoading}
+      />
+      <Heading heading="Specify the type of bike:" light />
+      <PrimarySelect
+        control={control}
+        name="type"
+        options={bikeTypesOptions}
+        placeholder="Choose type..."
+        disabled={isLoading}
+        required
+        errors={errors}
+      />
       <div className="pt-4">
         <Button
           type="submit"
