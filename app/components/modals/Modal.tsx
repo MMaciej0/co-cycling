@@ -63,11 +63,15 @@ const Modal: React.FC<ModalProps> = ({
     <div className="fixed inset-0 bg-secondary/95 flex justify-center items-center z-50">
       <div className="w-full md:w-4/6 lg:w-3/6 lgl:w-3/6 xl:w-2/6 h-full md:h-auto">
         <div
-          className={`${showModal ? 'translate-y-0' : 'translate-y-full'} ${
+          className={`${
+            showModal
+              ? 'translate-y-0 bg-primary md:rounded-lg overflow-y-auto'
+              : 'translate-y-full'
+          } ${
             showModal ? 'opacity-100' : 'opacity-0'
           } transition duration-300 h-full`}
         >
-          <div className="py-4 bg-primary md:border-highlight md:border-[1px] md:rounded-lg h-full">
+          <div className="py-4 md:border-highlight md:border-[1px] md:rounded-lg h-full">
             {/* heading */}
             <div className="relative">
               <button

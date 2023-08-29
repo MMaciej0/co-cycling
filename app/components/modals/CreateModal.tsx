@@ -17,6 +17,7 @@ import Heading from '../Heading';
 import dynamic from 'next/dynamic';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import Calendar from '../Calendar';
 
 export const rideTypesOptions = [
   { value: 'chill', label: 'Chill' },
@@ -27,9 +28,10 @@ export const rideTypesOptions = [
 
 enum Steps {
   Location = 0,
-  Map = 1,
-  Info = 2,
-  Description = 3,
+  Date = 1,
+  Map = 2,
+  Info = 3,
+  Description = 4,
 }
 
 const CreateModal = () => {
@@ -50,9 +52,10 @@ const CreateModal = () => {
   } = useForm<FieldValues>({
     defaultValues: {
       title: '',
+      startDate: null,
       city: '',
       district: '',
-      meetingPoint: '',
+      meetingPoint: null,
       meetingDescription: '',
       bikeType: '',
       rideType: '',
@@ -64,12 +67,12 @@ const CreateModal = () => {
 
   const city = watch('city');
   const meetingPoint = watch('meetingPoint');
+  const startDate = watch('startDate');
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     if (currentStep !== Steps.Description) {
       return onNext();
     }
-    console.log(data);
     axios
       .post('/api/create', data)
       .then(() => {
@@ -83,7 +86,6 @@ const CreateModal = () => {
   };
 
   const onNext = () => {
-    console.log(getValues(['meetingDescription', 'city']));
     setCurrentStep((currentStep) => currentStep + 1);
   };
 
@@ -101,6 +103,10 @@ const CreateModal = () => {
   const resetAfterSelect = (name: string, value: unknown) =>
     reset({ ...getValues, [name]: value });
 
+  const changeDate = (newDate: Date) => {
+    setValue('startDate', newDate);
+  };
+
   const Map = useMemo(
     () => dynamic(() => import('../map/Map'), { ssr: false }),
     [city]
@@ -115,6 +121,7 @@ const CreateModal = () => {
         register={register}
         error={errors}
         disabled={isLoading}
+        required
       />
       <Heading heading="Enter the starting city:" light />
       <CitySelect
@@ -143,6 +150,15 @@ const CreateModal = () => {
   if (currentStep === 1) {
     modalBody = (
       <>
+        <Heading heading="Pick a ride date" light />
+        <Calendar selectedDate={startDate} onChange={changeDate} />
+      </>
+    );
+  }
+
+  if (currentStep === 2) {
+    modalBody = (
+      <>
         <Heading
           heading="Drag and drop marker on meeting point location:"
           light
@@ -166,7 +182,7 @@ const CreateModal = () => {
     );
   }
 
-  if (currentStep === 2) {
+  if (currentStep === 3) {
     modalBody = (
       <>
         <Heading heading="Specify the type of bike:" light />
@@ -209,7 +225,7 @@ const CreateModal = () => {
     );
   }
 
-  if (currentStep === 3) {
+  if (currentStep === 4) {
     modalBody = (
       <>
         <Heading
@@ -233,7 +249,7 @@ const CreateModal = () => {
       isOpen={createModal.isOpen}
       onClose={createModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
-      actionLabel={currentStep !== 3 ? 'Next' : 'Create'}
+      actionLabel={currentStep !== 4 ? 'Next' : 'Create'}
       body={modalBody}
       disabled={isLoading}
       secondaryActionLabel={currentStep === 0 ? undefined : 'Back'}

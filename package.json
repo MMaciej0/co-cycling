@@ -19,13 +19,15 @@
     "bcrypt": "^5.1.0",
     "cities.json": "^1.1.23",
     "classnames": "^2.3.2",
+    "date-fns": "^2.30.0",
     "eslint": "8.44.0",
     "eslint-config-next": "13.4.7",
     "leaflet": "^1.9.4",
     "next": "13.4.7",
     "next-auth": "^4.22.1",
     "postcss": "8.4.24",
-    "react": "18.2.0",
+    "react": "^18.2.0",
+    "react-date-range": "^1.4.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.45.1",
     "react-hot-toast": "^2.4.1",
@@ -40,6 +42,7 @@
     "@hookform/devtools": "^4.3.1",
     "@types/bcrypt": "^5.0.0",
     "@types/leaflet": "^1.9.3",
+    "@types/react-date-range": "^1.4.4",
     "prisma": "^5.0.0"
   }
 }

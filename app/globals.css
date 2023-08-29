@@ -1,3 +1,39 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.rdrCalendarWrapper,
+.rdrDateRangeWrapper {
+  color: #ffff00 !important;
+  background-color: #222831;
+  border: 1px solid #eeeeee;
+  border-radius: 5px;
+  width: 100% !important;
+  font-size: 16px !important;
+}
+
+.rdrMonth {
+  width: 100% !important;
+}
+
+.rdrSelected {
+  border: 1px solid #ffff00;
+}
+
+.rdrDayNumber span {
+  color: #ffff00 !important;
+}
+
+.rdrDayDisabled .rdrDayNumber span {
+  color: #aeb9bf !important;
+}
+
+.rdrMonthPicker select,
+.rdrYearPicker select {
+  color: #eeeeee !important;
+  background-color: #222831 !important;
+}
+
+.rdrDateDisplayItemActive {
+  border-color: #ffff00;
+}
