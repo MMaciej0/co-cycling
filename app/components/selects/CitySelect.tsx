@@ -6,6 +6,7 @@ import { Control, Controller, FieldErrors, FieldValues } from 'react-hook-form';
 import { createFilter } from 'react-select';
 import AsyncSelect from 'react-select/async';
 import { getCustomStyles } from './PrimarySelect';
+import { Location } from '@/app/types';
 
 interface CityOption {
   label: string;
@@ -24,6 +25,7 @@ interface CitySelectProps {
   name: string;
   errors: FieldErrors;
   preChange?: (name: string, value: unknown) => void;
+  handleMeetingPointChange?: (location: Location) => void;
 }
 
 const CitySelect: React.FC<CitySelectProps> = ({
@@ -34,6 +36,7 @@ const CitySelect: React.FC<CitySelectProps> = ({
   name,
   errors,
   preChange,
+  handleMeetingPointChange,
 }) => {
   const { getBySubstring } = useCities();
   const customStyles = getCustomStyles(errors, name);
@@ -67,11 +70,18 @@ const CitySelect: React.FC<CitySelectProps> = ({
           name={name}
           ref={ref}
           value={value}
-          onChange={(newValue) => {
+          onChange={(v) => {
+            const newValue = v as CityOption;
             if (preChange) {
               preChange('city', newValue);
             }
             onChange(newValue);
+            if (handleMeetingPointChange) {
+              handleMeetingPointChange({
+                lat: Number(newValue.lat),
+                lng: Number(newValue.lng),
+              } as Location);
+            }
           }}
           isDisabled={disabled}
           required={required}

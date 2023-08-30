@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 import PrimaryInput from '../inputs/PrimaryInput';
@@ -52,7 +52,7 @@ const CreateModal = () => {
   } = useForm<FieldValues>({
     defaultValues: {
       title: '',
-      startDate: null,
+      startDate: new Date(),
       city: '',
       district: '',
       meetingPoint: null,
@@ -73,14 +73,13 @@ const CreateModal = () => {
     if (currentStep !== Steps.Description) {
       return onNext();
     }
+
     axios
       .post('/api/create', data)
-      .then(() => {
+      .then((callback) => {
         toast('Ride Created');
-        router.refresh();
-        reset();
-        setCurrentStep(Steps.Location);
-        createModal.onClose();
+        const { id } = callback.data;
+        router.push(`/listings/${id}`);
       })
       .catch(() => toast('Something went wrong.'));
   };
@@ -93,15 +92,12 @@ const CreateModal = () => {
     setCurrentStep((currentStep) => currentStep - 1);
   };
 
-  const setMeetingPoint = useCallback(
-    (location: Location) => {
-      setValue('meetingPoint', location);
-    },
-    [setValue]
-  );
+  const setMeetingPoint = (location: Location) => {
+    setValue('meetingPoint', location);
+  };
 
   const resetAfterSelect = (name: string, value: unknown) =>
-    reset({ ...getValues, [name]: value });
+    reset({ ...getValues, [name]: value, startDate: new Date() });
 
   const changeDate = (newDate: Date) => {
     setValue('startDate', newDate);
@@ -132,6 +128,7 @@ const CreateModal = () => {
         required
         errors={errors}
         preChange={resetAfterSelect}
+        handleMeetingPointChange={setMeetingPoint}
       />
       <Heading
         heading="Enter the district of the starting city (optional):"

@@ -12,6 +12,7 @@ interface CalendarProps {
 }
 
 const Calendar: FC<CalendarProps> = ({ onChange, selectedDate }) => {
+  console.log(selectedDate);
   return (
     <div className="flex justify-center w-full my-6">
       <DRCalendar
