@@ -20,6 +20,7 @@ export async function POST(request: Request) {
     rideType,
     pace,
     route,
+    departure,
     description,
   } = await request.json();
 
@@ -30,6 +31,7 @@ export async function POST(request: Request) {
       district,
       meetingDescription,
       startDate,
+      departure,
       bikeType: bikeType.value,
       rideType: rideType.value,
       pace,
@@ -42,6 +44,9 @@ export async function POST(request: Request) {
           lng: meetingPoint.lng,
         },
       },
+    },
+    include: {
+      meetingPoint: true,
     },
   });
 

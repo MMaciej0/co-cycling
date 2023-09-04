@@ -6,7 +6,7 @@ import { Location } from '@/app/types';
 
 interface DraggableMarkerProps {
   center: Location;
-  setMeetingPoint: (location: Location) => void;
+  setMeetingPoint?: (location: Location) => void;
 }
 
 const DraggableMarker: FC<DraggableMarkerProps> = ({
@@ -23,7 +23,9 @@ const DraggableMarker: FC<DraggableMarkerProps> = ({
         const marker = markerRef.current;
         if (marker !== null) {
           setPosition(marker.getLatLng());
-          setMeetingPoint(marker.getLatLng());
+          if (setMeetingPoint) {
+            setMeetingPoint(marker.getLatLng());
+          }
         }
       },
     }),

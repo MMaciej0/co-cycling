@@ -1,23 +1,21 @@
 'use client';
 
-import { useCallback, useMemo, useState } from 'react';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import dynamic from 'next/dynamic';
+import { useMemo, useState } from 'react';
+import axios from 'axios';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-
+import { toast } from 'react-hot-toast';
+import { add } from 'date-fns';
 import PrimaryInput from '../inputs/PrimaryInput';
 import Modal from './Modal';
-
-import useCreateModal from '@/app/hooks/useCreateModal';
 import CitySelect from '../selects/CitySelect';
-
-import { Location } from '@/app/types';
 import PrimarySelect from '../selects/PrimarySelect';
-import { bikeTypesOptions } from '../homePage/HomeForm';
 import Heading from '../Heading';
-import dynamic from 'next/dynamic';
-import axios from 'axios';
-import { toast } from 'react-hot-toast';
 import Calendar from '../Calendar';
+import useCreateModal from '@/app/hooks/useCreateModal';
+import { Location } from '@/app/types';
+import { bikeTypesOptions } from '../homePage/HomeForm';
 
 export const rideTypesOptions = [
   { value: 'chill', label: 'Chill' },
@@ -39,6 +37,7 @@ const CreateModal = () => {
   const [isLoading, setIsLoading] = useState(false);
   const createModal = useCreateModal();
   const router = useRouter();
+  const initialDate = add(new Date(), { days: 1 });
 
   const {
     register,
@@ -52,7 +51,8 @@ const CreateModal = () => {
   } = useForm<FieldValues>({
     defaultValues: {
       title: '',
-      startDate: new Date(),
+      startDate: initialDate,
+      departure: '',
       city: '',
       district: '',
       meetingPoint: null,
@@ -73,15 +73,19 @@ const CreateModal = () => {
     if (currentStep !== Steps.Description) {
       return onNext();
     }
+    setIsLoading(true);
 
     axios
       .post('/api/create', data)
       .then((callback) => {
         toast('Ride Created');
         const { id } = callback.data;
+        createModal.onClose();
         router.push(`/listings/${id}`);
       })
       .catch(() => toast('Something went wrong.'));
+
+    setIsLoading(false);
   };
 
   const onNext = () => {
@@ -97,7 +101,7 @@ const CreateModal = () => {
   };
 
   const resetAfterSelect = (name: string, value: unknown) =>
-    reset({ ...getValues, [name]: value, startDate: new Date() });
+    reset({ ...getValues, [name]: value, startDate: initialDate });
 
   const changeDate = (newDate: Date) => {
     setValue('startDate', newDate);
@@ -149,6 +153,15 @@ const CreateModal = () => {
       <>
         <Heading heading="Pick a ride date" light />
         <Calendar selectedDate={startDate} onChange={changeDate} />
+        <Heading heading="Set departure time" light />
+        <PrimaryInput
+          id="departure"
+          type="time"
+          required
+          register={register}
+          error={errors}
+          disabled={isLoading}
+        />
       </>
     );
   }
@@ -156,6 +169,15 @@ const CreateModal = () => {
   if (currentStep === 2) {
     modalBody = (
       <>
+        <Heading heading="Describe meeting point:" light />
+        <PrimaryInput
+          id="meetingDescription"
+          label="Meeting Point Description"
+          register={register}
+          error={errors}
+          disabled={isLoading}
+          required
+        />
         <Heading
           heading="Drag and drop marker on meeting point location:"
           light
@@ -165,15 +187,6 @@ const CreateModal = () => {
             meetingPoint ? meetingPoint : { lat: city.lat, lng: city.lng }
           }
           setMeetingPoint={setMeetingPoint}
-        />
-        <Heading heading="Describe meeting point:" light />
-        <PrimaryInput
-          id="meetingDescription"
-          label="Meeting Point Description"
-          register={register}
-          error={errors}
-          disabled={isLoading}
-          required
         />
       </>
     );

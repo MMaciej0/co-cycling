@@ -12,6 +12,8 @@
   font-size: 16px !important;
 }
 
+/* calendar */
+
 .rdrMonth {
   width: 100% !important;
 }
@@ -36,4 +38,9 @@
 
 .rdrDateDisplayItemActive {
   border-color: #ffff00;
+}
+
+input[type='time']::-webkit-calendar-picker-indicator {
+  background: none;
+  display: none;
 }

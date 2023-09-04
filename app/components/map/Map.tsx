@@ -2,7 +2,7 @@
 
 import { FC } from 'react';
 import L from 'leaflet';
-import { MapContainer, TileLayer } from 'react-leaflet';
+import { MapContainer, Marker, TileLayer } from 'react-leaflet';
 import DraggableMarker from './DraggableMarker';
 import { Location } from '../../types';
 
@@ -21,7 +21,7 @@ L.Icon.Default.mergeOptions({
 
 interface MapProps {
   center: Location;
-  setMeetingPoint: (location: Location) => void;
+  setMeetingPoint?: (location: Location) => void;
 }
 
 const Map: FC<MapProps> = ({ center, setMeetingPoint }) => {
@@ -37,7 +37,11 @@ const Map: FC<MapProps> = ({ center, setMeetingPoint }) => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <DraggableMarker center={center} setMeetingPoint={setMeetingPoint} />
+        {setMeetingPoint ? (
+          <DraggableMarker center={center} setMeetingPoint={setMeetingPoint} />
+        ) : (
+          <Marker position={center} />
+        )}
       </MapContainer>
     </div>
   );

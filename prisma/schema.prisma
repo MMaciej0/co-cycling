@@ -49,6 +49,7 @@ model Listing {
   city               String
   district           String?
   startDate          DateTime
+  departure          String
   meetingPoint       MeetingPoint?
   meetingDescription String
   bikeType           String

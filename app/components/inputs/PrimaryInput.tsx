@@ -10,7 +10,7 @@ import {
 interface PrimaryInputProps {
   id: string;
   type?: string;
-  label: string;
+  label?: string;
   disabled?: boolean;
   required?: boolean;
   register: UseFormRegister<FieldValues>;
@@ -40,12 +40,14 @@ const PrimaryInput: React.FC<PrimaryInputProps> = ({
           error[id] ? 'border-rose-500' : 'border-transparent'
         } ${error[id] ? 'focus:border-rose-500' : 'focus:border-highlight'}`}
       />
-      <label
-        htmlFor={id}
-        className={`cursor-pointer absolute left-6 top-4 p-1 font-semibold tracking-wider text-primary bg-highlight rounded transform orgin-[0] duration-200 -translate-y-9 scale-75 peer-placeholder-shown:bg-transparent peer-placeholder-shown:text-light/50 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0`}
-      >
-        {label}
-      </label>
+      {label && (
+        <label
+          htmlFor={id}
+          className={`cursor-pointer absolute left-6 top-4 p-1 font-semibold tracking-wider text-primary bg-highlight rounded transform orgin-[0] duration-200 -translate-y-9 scale-75 peer-placeholder-shown:bg-transparent peer-placeholder-shown:text-light/50 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0`}
+        >
+          {label}
+        </label>
+      )}
     </div>
   );
 };

@@ -2,6 +2,7 @@
 
 import { FC } from 'react';
 import { Calendar as DRCalendar } from 'react-date-range';
+import { add } from 'date-fns';
 
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
@@ -18,7 +19,7 @@ const Calendar: FC<CalendarProps> = ({ onChange, selectedDate }) => {
       <DRCalendar
         onChange={(newDate) => onChange(newDate)}
         date={selectedDate}
-        minDate={new Date()}
+        minDate={add(new Date(), { days: 1 })}
         color="#393E46"
       />
     </div>
