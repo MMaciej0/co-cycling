@@ -26,12 +26,12 @@ interface MapProps {
 
 const Map: FC<MapProps> = ({ center, setMeetingPoint }) => {
   return (
-    <div>
+    <>
       <MapContainer
         center={center}
         zoom={13}
         scrollWheelZoom={false}
-        className="h-[35vh] rounded-lg my-6"
+        className="min-h-[35vh] z-0"
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -43,7 +43,7 @@ const Map: FC<MapProps> = ({ center, setMeetingPoint }) => {
           <Marker position={center} />
         )}
       </MapContainer>
-    </div>
+    </>
   );
 };
 

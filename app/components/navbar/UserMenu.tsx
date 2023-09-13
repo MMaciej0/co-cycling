@@ -9,6 +9,7 @@ import useLoginModal from '@/app/hooks/useLoginModal';
 import { SafeUser } from '@/app/types';
 import { signOut } from 'next-auth/react';
 import useClickOutside from '@/app/hooks/useClickOutside';
+import Avatar from '../Avatar';
 
 interface UserMenuProps {
   currentUser?: SafeUser | null;
@@ -35,16 +36,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
             isOpen && 'text-highlight'
           }`}
         />
-        <div className="w-10 h-10 relative">
-          <Image
-            className={`rounded-full group-hover:shadow-md group-hover:shadow-highlight/80 ${
-              isOpen && 'shadow-md shadow-highlight/80'
-            }`}
-            src={`${currentUser?.image || '/images/placeholder.jpg'}`}
-            alt="avatar"
-            fill
-          />
-        </div>
+        <Avatar image={currentUser?.image} highlight={isOpen} />
       </div>
       {isOpen && (
         <ul

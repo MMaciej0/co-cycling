@@ -8,6 +8,7 @@ const getListingById = async (id: string) => {
       },
       include: {
         meetingPoint: true,
+        owner: true,
       },
     });
     if (!listing) {

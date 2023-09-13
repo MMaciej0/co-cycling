@@ -81,7 +81,7 @@ const CreateModal = () => {
         toast('Ride Created');
         const { id } = callback.data;
         createModal.onClose();
-        router.push(`/listings/${id}`);
+        router.push(`/listing/${id}`);
       })
       .catch(() => toast('Something went wrong.'));
 

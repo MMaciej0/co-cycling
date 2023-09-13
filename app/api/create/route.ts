@@ -1,6 +1,16 @@
-import getCurrentUser from '@/app/actions/getCurrentUser';
-import { prisma } from '@/app/libs/db';
 import { NextResponse } from 'next/server';
+import { prisma } from '@/app/libs/db';
+import countriesDB from 'world-countries';
+import getCurrentUser from '@/app/actions/getCurrentUser';
+
+const countries = countriesDB.map((country) => ({
+  name: country.name.common,
+  value: country.cca2,
+  flag: country.flag,
+}));
+
+const getByValue = (value: string) =>
+  countries.find((country) => country.value === value);
 
 export async function POST(request: Request) {
   const currentUser = await getCurrentUser();
@@ -24,6 +34,8 @@ export async function POST(request: Request) {
     description,
   } = await request.json();
 
+  const country = getByValue(city.country);
+
   const newRide = await prisma.listing.create({
     data: {
       title,
@@ -37,7 +49,9 @@ export async function POST(request: Request) {
       pace,
       route,
       description,
-      userId: currentUser.id,
+      ownerId: currentUser.id,
+      countryName: country?.name,
+      flag: country?.flag,
       meetingPoint: {
         create: {
           lat: meetingPoint.lat,
@@ -47,6 +61,7 @@ export async function POST(request: Request) {
     },
     include: {
       meetingPoint: true,
+      owner: true,
     },
   });
 
