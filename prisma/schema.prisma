@@ -61,6 +61,7 @@ model Listing {
   createdAt          DateTime      @default(now())
   countryName        String?
   flag               String?
+  distance           String
 
   owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId String @db.ObjectId

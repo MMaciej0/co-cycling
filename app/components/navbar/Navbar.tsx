@@ -3,7 +3,6 @@
 import { SafeUser } from '@/app/types';
 import Logo from './Logo';
 import UserMenu from './UserMenu';
-import { ImSearch } from 'react-icons/im';
 
 interface NavbarProps {
   currentUser?: SafeUser | null;
@@ -16,9 +15,6 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
         <div className="flex justify-between items-center">
           <Logo />
           <div className="flex space-x-10 items-center">
-            <button className="text-2xl hover:text-highlight transition duration-200">
-              <ImSearch />
-            </button>
             <UserMenu currentUser={currentUser} />
           </div>
         </div>

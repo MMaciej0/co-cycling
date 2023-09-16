@@ -32,6 +32,7 @@ export async function POST(request: Request) {
     route,
     departure,
     description,
+    distance,
   } = await request.json();
 
   const country = getByValue(city.country);
@@ -52,6 +53,7 @@ export async function POST(request: Request) {
       ownerId: currentUser.id,
       countryName: country?.name,
       flag: country?.flag,
+      distance,
       meetingPoint: {
         create: {
           lat: meetingPoint.lat,

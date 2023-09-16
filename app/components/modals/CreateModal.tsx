@@ -28,7 +28,7 @@ enum Steps {
   Location = 0,
   Date = 1,
   Map = 2,
-  Info = 3,
+  Type = 3,
   Description = 4,
 }
 
@@ -62,6 +62,7 @@ const CreateModal = () => {
       pace: '',
       route: '',
       description: '',
+      distance: '',
     },
   });
 
@@ -81,6 +82,8 @@ const CreateModal = () => {
         toast('Ride Created');
         const { id } = callback.data;
         createModal.onClose();
+        reset();
+        setCurrentStep(0);
         router.push(`/listing/${id}`);
       })
       .catch(() => toast('Something went wrong.'));
@@ -215,6 +218,22 @@ const CreateModal = () => {
           required
           errors={errors}
         />
+        <Heading heading="Ride length:" light />
+        <PrimaryInput
+          id="distance"
+          label="Distance in km"
+          register={register}
+          error={errors}
+          disabled={isLoading}
+          required
+        />
+      </>
+    );
+  }
+
+  if (currentStep === 4) {
+    modalBody = (
+      <>
         <Heading heading="Specify average pace (optional):" light />
         <PrimaryInput
           id="pace"
@@ -231,20 +250,14 @@ const CreateModal = () => {
           error={errors}
           disabled={isLoading}
         />
-      </>
-    );
-  }
-
-  if (currentStep === 4) {
-    modalBody = (
-      <>
+        <div className="w-full border-t border-highlight mt-12 pb-4"></div>
         <Heading
           heading="Describe your ride:"
           subheading="Anything else u want to say about your ride?"
         />
         <PrimaryInput
           id="description"
-          label="Link"
+          label="Your description..."
           register={register}
           error={errors}
           disabled={isLoading}

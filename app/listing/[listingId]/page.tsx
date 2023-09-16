@@ -6,6 +6,7 @@ import { format } from 'date-fns';
 import Heading from '@/app/components/Heading';
 import ColapsableContent from '@/app/components/ColapsableContent';
 import Avatar from '@/app/components/Avatar';
+import { capitalize } from '@/app/libs/strings';
 
 interface ListingProps {
   params: {
@@ -58,7 +59,7 @@ const Listing: FC<ListingProps> = async ({ params: { listingId } }) => {
           </div>
         </div>
         <div className="py-6 mt-6">
-          <div className="w-full border-t border-highlight/10 p-2 md:px-6  inline-grid md:grid-cols-3 gap-2">
+          <div className="w-full border-t border-highlight/10 p-2 md:px-6 grid grid-cols-2 md:grid-cols-3 gap-2">
             <div className="py-2">
               <span className="font-semibold text-highlight">Date: </span>
               {format(new Date(listing.startDate), 'PPPP')}
@@ -69,11 +70,15 @@ const Listing: FC<ListingProps> = async ({ params: { listingId } }) => {
             </div>
             <div className="py-2">
               <span className="font-semibold text-highlight">Ride type: </span>
-              {listing.rideType}
+              {capitalize(listing.rideType)}
             </div>
             <div className="py-2">
               <span className="font-semibold text-highlight">Bike type: </span>
-              {listing.bikeType}
+              {capitalize(listing.bikeType)}
+            </div>
+            <div className="py-2">
+              <span className="font-semibold text-highlight">Distance: </span>
+              {listing.distance} km
             </div>
             {listing.pace && (
               <div className="py-2">
@@ -83,22 +88,22 @@ const Listing: FC<ListingProps> = async ({ params: { listingId } }) => {
                 {listing.pace} km/h
               </div>
             )}
-            {listing.description && (
-              <div className="py-2">
-                <ColapsableContent
-                  label="Description"
-                  content={listing.description}
-                />
-              </div>
-            )}
           </div>
         </div>
         {listing.route && (
-          <div className="w-full border-t border-highlight/10 p-2 md:px-6  inline-grid md:grid-cols-3 gap-2">
+          <div className="w-full border-t border-highlight/10 p-2 md:px-6">
             <div className="py-2">
               <span className="font-semibold text-highlight">Route: </span>
               {listing.route}
             </div>
+          </div>
+        )}
+        {listing.description && (
+          <div className="w-full border-t border-highlight/10 p-2 md:px-6">
+            <ColapsableContent
+              label="Description"
+              content={listing.description}
+            />
           </div>
         )}
         <div className="w-full border-t border-highlight/10 p-2 md:px-6">

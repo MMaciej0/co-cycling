@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import qs from 'query-string';
 import PrimaryInput from '../inputs/PrimaryInput';
 import Button from '../Button';
 import PrimarySelect from '../selects/PrimarySelect';
@@ -10,6 +11,7 @@ import Heading from '../Heading';
 import useCreateModal from '@/app/hooks/useCreateModal';
 import useLoginModal from '@/app/hooks/useLoginModal';
 import { SafeUser } from '@/app/types';
+import { useRouter } from 'next/navigation';
 
 export const bikeTypesOptions = [
   { value: 'road', label: 'Road' },
@@ -28,6 +30,7 @@ const HomeForm: React.FC<HomeFormProps> = ({ currentUser }) => {
   const [isLoading, setIsLoading] = useState(false);
   const createModal = useCreateModal();
   const loginModal = useLoginModal();
+  const router = useRouter();
 
   const {
     register,
@@ -51,7 +54,19 @@ const HomeForm: React.FC<HomeFormProps> = ({ currentUser }) => {
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
-    console.log(data);
+    const newQuery = {
+      city: data.city.value,
+      district: data.district,
+      type: data.type.value,
+    };
+    const url = qs.stringifyUrl(
+      {
+        url: '/listings',
+        query: newQuery,
+      },
+      { skipEmptyString: true, skipNull: true }
+    );
+    router.push(url);
     setIsLoading(false);
   };
 
