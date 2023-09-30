@@ -28,12 +28,14 @@ const Button: React.FC<ButtonProps> = ({
       onClick={onClick}
       disabled={disabled}
       className={`relative w-full ${
-        small ? 'py-2' : 'py-4 font-semibold'
-      } tracking-widest rounded-md ${
+        small ? 'py-2' : 'py-4'
+      } tracking-widest font-semibold rounded-md ${
         outline
           ? 'border-[1px] border-highlight hover:text-primary'
           : 'bg-highlight/70 text-primary'
-      } hover:bg-highlight transition duration-300`}
+      } hover:bg-highlight transition duration-300 ${
+        disabled && 'cursor-not-allowed bg-highlight/20 hover:bg-highlight/20'
+      }`}
     >
       {Icon && (
         <Icon className="hidden sml:block absolute top-4 left-8" size={20} />

@@ -20,6 +20,7 @@
     "cities.json": "^1.1.23",
     "classnames": "^2.3.2",
     "date-fns": "^2.30.0",
+    "embla-carousel-react": "^8.0.0-rc14",
     "eslint": "8.44.0",
     "eslint-config-next": "13.4.7",
     "leaflet": "^1.9.4",

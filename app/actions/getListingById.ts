@@ -9,6 +9,11 @@ const getListingById = async (id: string) => {
       include: {
         meetingPoint: true,
         owner: true,
+        participants: {
+          include: {
+            user: true,
+          },
+        },
       },
     });
     if (!listing) {

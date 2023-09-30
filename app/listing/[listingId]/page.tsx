@@ -1,12 +1,14 @@
 import { FC } from 'react';
 import dynamic from 'next/dynamic';
-import getListingById from '@/app/actions/getListingById';
-import { Location } from '@/app/types';
 import { format } from 'date-fns';
 import Heading from '@/app/components/Heading';
 import ColapsableContent from '@/app/components/ColapsableContent';
 import Avatar from '@/app/components/Avatar';
+import UsersSlider from '@/app/components/carousels/UsersSlider';
+import getListingById from '@/app/actions/getListingById';
+import getCurrentUser from '@/app/actions/getCurrentUser';
 import { capitalize } from '@/app/libs/strings';
+import { Location } from '@/app/types';
 
 interface ListingProps {
   params: {
@@ -14,10 +16,9 @@ interface ListingProps {
   };
 }
 
-// /65016c02804db31ee7c588a5
-
 const Listing: FC<ListingProps> = async ({ params: { listingId } }) => {
   const listing = await getListingById(listingId);
+  const currentUser = await getCurrentUser();
 
   const Map = dynamic(() => import('@/app/components/map/Map'), { ssr: false });
 
@@ -114,10 +115,11 @@ const Listing: FC<ListingProps> = async ({ params: { listingId } }) => {
           </div>
         </div>
         <div className="w-full border-t border-highlight/10 p-2 md:px-6">
-          <div className="py-2">
-            <span className="font-semibold text-highlight">
+          <div className="py-2 lg:flex lg:items-center">
+            <span className="font-semibold text-highlight whitespace-nowrap md:mr-2">
               Already signed in:{' '}
             </span>
+            <UsersSlider currentUser={currentUser} listing={listing} />
           </div>
         </div>
       </div>
