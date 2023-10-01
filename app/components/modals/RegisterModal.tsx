@@ -4,7 +4,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { signIn } from 'next-auth/react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import { BsStrava, BsGoogle } from 'react-icons/bs';
+import { BsGoogle } from 'react-icons/bs';
 import { toast } from 'react-hot-toast';
 import PrimaryInput from '../inputs/PrimaryInput';
 import Modal from './Modal';
@@ -34,9 +34,15 @@ const RegisterModal = () => {
 
     axios
       .post('/api/register', data)
-      .then(() => registerModal.onClose())
+      .then(() => {
+        registerModal.onClose();
+        toast('Account created');
+      })
       .catch((error) => toast('Something went wrong. Plase try again.'))
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        setIsLoading(false);
+        loginModal.onOpen();
+      });
   };
 
   const handleModalChange = () => {
