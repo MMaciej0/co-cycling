@@ -1,15 +1,14 @@
 'use client';
 
-import Image from 'next/image';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
+import { signOut } from 'next-auth/react';
 import { BiSolidChevronDown } from 'react-icons/bi';
 import UserMenuItem from './UserMenuItem';
+import Avatar from '../Avatar';
 import useRegisterModal from '@/app/hooks/useRegisterModal';
 import useLoginModal from '@/app/hooks/useLoginModal';
-import { SafeUser } from '@/app/types';
-import { signOut } from 'next-auth/react';
 import useClickOutside from '@/app/hooks/useClickOutside';
-import Avatar from '../Avatar';
+import { SafeUser } from '@/app/types';
 
 interface UserMenuProps {
   currentUser?: SafeUser | null;
@@ -19,14 +18,15 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const [isOpen, setIsOpen] = useState(false);
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
-  const menuRef = useClickOutside(() => {
+  const userMenuRef = useRef(null);
+  useClickOutside(() => {
     setIsOpen(false);
-  });
+  }, userMenuRef);
 
   const toggleOpen = () => setIsOpen(!isOpen);
 
   return (
-    <div className="relative bg-primary z-50">
+    <div className="relative bg-primary z-50" ref={userMenuRef}>
       <div
         onClick={toggleOpen}
         className="relative group cursor-pointer transition duration-200"
@@ -39,10 +39,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
         <Avatar image={currentUser?.image} highlight={isOpen} />
       </div>
       {isOpen && (
-        <ul
-          ref={menuRef}
-          className="absolute top-16 right-3 bg-primary border-[1px] border-highlight rounded-md overflow-hidden"
-        >
+        <ul className="absolute top-16 right-3 bg-primary border-[1px] border-highlight rounded-md overflow-hidden">
           {currentUser ? (
             <UserMenuItem label="Logout" onClick={() => signOut()} />
           ) : (

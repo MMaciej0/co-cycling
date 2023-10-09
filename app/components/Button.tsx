@@ -11,6 +11,7 @@ interface ButtonProps {
   icon?: IconType;
   disabled?: boolean;
   small?: boolean;
+  active?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -21,6 +22,7 @@ const Button: React.FC<ButtonProps> = ({
   icon: Icon,
   disabled,
   small,
+  active,
 }) => {
   return (
     <button
@@ -31,7 +33,9 @@ const Button: React.FC<ButtonProps> = ({
         small ? 'py-2' : 'py-4'
       } tracking-widest font-semibold rounded-md ${
         outline
-          ? 'border-[1px] border-highlight hover:text-primary'
+          ? `border-[1px] border-highlight hover:text-primary ${
+              active && 'bg-highlight text-primary'
+            }`
           : 'bg-highlight/70 text-primary'
       } hover:bg-highlight transition duration-300 ${
         disabled && 'cursor-not-allowed bg-highlight/20 hover:bg-highlight/20'

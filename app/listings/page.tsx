@@ -1,6 +1,9 @@
 import ListingCard from '../components/ListingCard';
 import getListings from '../actions/getListings';
 import Link from 'next/link';
+import DropdownButton from '../components/DropdownButton';
+import PrimaryInput from '../components/inputs/PrimaryInput';
+import ListingsNav from './ListingsNav';
 
 const ListingsPage = async ({
   searchParams,
@@ -21,8 +24,10 @@ const ListingsPage = async ({
   }
 
   return (
-    <div className="pt-32 md:pt40 px-4 md:px-12 pb-10 max-w-contentContainer m-auto">
-      <p className="py-20">Search bar</p>
+    <div className="pt-20 px-4 md:px-12 pb-10 max-w-contentContainer m-auto">
+      <div className="py-20">
+        <ListingsNav listings={listings} />
+      </div>
       <div className="grid grid-cold-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
         {listings.map((listing) => (
           <ListingCard key={listing.id} listing={listing} />
