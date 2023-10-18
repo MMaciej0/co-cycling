@@ -6,9 +6,8 @@ import { Control, Controller, FieldErrors, FieldValues } from 'react-hook-form';
 import { createFilter } from 'react-select';
 import AsyncSelect from 'react-select/async';
 import { getCustomStyles } from './PrimarySelect';
-import { Location } from '@/app/types';
 
-interface CityOption {
+export interface CityOption {
   label: string;
   value: string;
   country?: string;
@@ -24,8 +23,8 @@ interface CitySelectProps {
   required?: boolean;
   name: string;
   errors: FieldErrors;
-  preChange?: (name: string, value: unknown) => void;
-  handleMeetingPointChange?: (location: Location) => void;
+  controlledValue?: string;
+  customChange?: (value: CityOption) => void;
 }
 
 const CitySelect: React.FC<CitySelectProps> = ({
@@ -35,8 +34,8 @@ const CitySelect: React.FC<CitySelectProps> = ({
   required,
   name,
   errors,
-  preChange,
-  handleMeetingPointChange,
+  controlledValue,
+  customChange,
 }) => {
   const { getBySubstring } = useCities();
   const customStyles = getCustomStyles(errors, name);
@@ -69,18 +68,13 @@ const CitySelect: React.FC<CitySelectProps> = ({
           placeholder={placeholder}
           name={name}
           ref={ref}
-          value={value}
+          value={controlledValue || value}
           onChange={(v) => {
             const newValue = v as CityOption;
-            if (preChange) {
-              preChange('city', newValue);
-            }
-            onChange(newValue);
-            if (handleMeetingPointChange) {
-              handleMeetingPointChange({
-                lat: Number(newValue.lat),
-                lng: Number(newValue.lng),
-              } as Location);
+            if (customChange) {
+              customChange(newValue);
+            } else {
+              onChange(newValue);
             }
           }}
           isDisabled={disabled}

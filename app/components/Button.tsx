@@ -29,13 +29,11 @@ const Button: React.FC<ButtonProps> = ({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`relative w-full ${
+      className={`relative w-full border-[1px] border-highlight ${
         small ? 'py-2' : 'py-4'
       } tracking-widest font-semibold rounded-md ${
         outline
-          ? `border-[1px] border-highlight hover:text-primary ${
-              active && 'bg-highlight text-primary'
-            }`
+          ? ` hover:text-primary ${active && 'bg-highlight text-primary'}`
           : 'bg-highlight/70 text-primary'
       } hover:bg-highlight transition duration-300 ${
         disabled && 'cursor-not-allowed bg-highlight/20 hover:bg-highlight/20'

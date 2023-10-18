@@ -9,7 +9,7 @@ import { toast } from 'react-hot-toast';
 import { add } from 'date-fns';
 import PrimaryInput from '../inputs/PrimaryInput';
 import Modal from './Modal';
-import CitySelect from '../selects/CitySelect';
+import CitySelect, { CityOption } from '../selects/CitySelect';
 import PrimarySelect from '../selects/PrimarySelect';
 import Heading from '../Heading';
 import Calendar from '../Calendar';
@@ -103,11 +103,17 @@ const CreateModal = () => {
     setValue('meetingPoint', location);
   };
 
-  const resetAfterSelect = (name: string, value: unknown) =>
-    reset({ ...getValues, [name]: value, startDate: initialDate });
-
   const changeDate = (newDate: Date) => {
     setValue('startDate', newDate);
+  };
+
+  const handleCitySelect = (newValue: CityOption) => {
+    reset();
+    if (newValue) {
+      changeDate(initialDate);
+      setValue('city', newValue);
+      setMeetingPoint({ lat: newValue.lat!, lng: newValue.lng! });
+    }
   };
 
   const Map = useMemo(
@@ -117,15 +123,6 @@ const CreateModal = () => {
 
   let modalBody = (
     <>
-      <Heading heading="Ride title" light />
-      <PrimaryInput
-        id="title"
-        label="e.g. Paris => Nicea..."
-        register={register}
-        error={errors}
-        disabled={isLoading}
-        required
-      />
       <Heading heading="Enter the starting city:" light />
       <CitySelect
         name="city"
@@ -134,8 +131,8 @@ const CreateModal = () => {
         disabled={isLoading}
         required
         errors={errors}
-        preChange={resetAfterSelect}
-        handleMeetingPointChange={setMeetingPoint}
+        controlledValue={city}
+        customChange={handleCitySelect}
       />
       <Heading
         heading="Enter the district of the starting city (optional):"
@@ -147,6 +144,15 @@ const CreateModal = () => {
         register={register}
         error={errors}
         disabled={isLoading}
+      />
+      <Heading heading="Ride title" light />
+      <PrimaryInput
+        id="title"
+        label="e.g. Paris => Nicea..."
+        register={register}
+        error={errors}
+        disabled={isLoading}
+        required
       />
     </>
   );

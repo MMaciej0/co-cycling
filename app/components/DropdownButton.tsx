@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, ReactNode, useRef, useState } from 'react';
+import { FC, ReactNode, useEffect, useRef, useState } from 'react';
 import { BiSolidChevronDown } from 'react-icons/bi';
 import Button from './Button';
 import useClickOutside from '../hooks/useClickOutside';
@@ -8,15 +8,38 @@ import useClickOutside from '../hooks/useClickOutside';
 type DropdownButtonProps = {
   label: string;
   listContent: ReactNode;
+  isOpen?: boolean;
+  forceStatus?: (status: boolean) => void;
 };
 
-const DropdownButton: FC<DropdownButtonProps> = ({ label, listContent }) => {
-  const [listVisible, setListVisible] = useState(false);
+const DropdownButton: FC<DropdownButtonProps> = ({
+  label,
+  listContent,
+  isOpen,
+  forceStatus,
+}) => {
+  const [listVisible, setListVisible] = useState(
+    isOpen !== undefined ? isOpen : false
+  );
   const btnRef = useRef(null);
+
+  useEffect(() => {
+    isOpen !== undefined && setListVisible(isOpen);
+  }, [isOpen]);
 
   useClickOutside(() => {
     setListVisible(false);
+    if (isOpen && forceStatus) {
+      forceStatus(false);
+    }
   }, btnRef);
+
+  const handleButtonClick = () => {
+    setListVisible(!listVisible);
+    if (isOpen !== undefined && forceStatus) {
+      forceStatus(!isOpen);
+    }
+  };
 
   return (
     <>
@@ -30,7 +53,7 @@ const DropdownButton: FC<DropdownButtonProps> = ({ label, listContent }) => {
           type="button"
           icon={BiSolidChevronDown}
           label={label}
-          onClick={() => setListVisible(!listVisible)}
+          onClick={handleButtonClick}
           outline
           active={listVisible}
         />

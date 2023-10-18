@@ -1,36 +1,26 @@
 'use client';
 
-import React, { FC, useCallback, useMemo } from 'react';
-import { FieldValues, useForm } from 'react-hook-form';
+import { FC, useMemo, useState } from 'react';
 import DropdownButton from '../components/DropdownButton';
 import RangeSlider from '../components/RangeSlider';
 import { rideTypesOptions } from '../components/modals/CreateModal';
 import SingleSelectionList from '../components/SingleSelectionList';
 import Button from '../components/Button';
 import { Listing } from '@prisma/client';
+import useFiltersDropdown from '../hooks/useFiltersDropdown';
+import useQueryParams from '../hooks/useQueryParams';
+import useFilters from '../hooks/useFilters';
 
 interface NavButtonsProps {
   listings: Listing[];
 }
 
 const ListingsNavButtons: FC<NavButtonsProps> = ({ listings }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    watch,
-  } = useForm<FieldValues>({
-    defaultValues: {
-      maxDistance: 10,
-      rideType: '',
-      sorting: '',
-    },
-  });
-
-  const selectedRideType = watch('rideType');
-  const maxDistance = watch('maxDistance');
-  const sorting = watch('sorting');
+  const [isLoading, setIsLoading] = useState(false);
+  const { updateQuery } = useQueryParams();
+  const filtersDropDown = useFiltersDropdown();
+  const filters = useFilters();
+  const { maxDistance, rideType, sorting } = filters.filters;
 
   const max = useMemo(() => {
     return listings?.reduce((a: number, c: Listing) => {
@@ -44,26 +34,13 @@ const ListingsNavButtons: FC<NavButtonsProps> = ({ listings }) => {
     return a;
   }, []);
 
-  const rangeSliderHandler = useCallback(
-    (value: number) => {
-      setValue('maxDistance', value);
-    },
-    [setValue]
-  );
-
-  const rideOptionsHandler = useCallback(
-    (value: string) => {
-      setValue('rideType', value);
-    },
-    [setValue]
-  );
-
-  const sortingHandler = useCallback(
-    (value: string) => {
-      setValue('sorting', value);
-    },
-    [setValue]
-  );
+  const handleSubmit = () => {
+    setIsLoading(true);
+    const newParams = filters.filters;
+    updateQuery('/listings', newParams);
+    filtersDropDown.onClose();
+    setIsLoading(false);
+  };
 
   return (
     <>
@@ -74,9 +51,14 @@ const ListingsNavButtons: FC<NavButtonsProps> = ({ listings }) => {
             <>
               <RangeSlider
                 max={max}
-                changeHandler={rangeSliderHandler}
-                defaultValue={maxDistance}
+                changeHandler={(value) =>
+                  filters.setNewValue('maxDistance', value)
+                }
+                defaultValue={
+                  Number(maxDistance) > max ? max : Number(maxDistance)
+                }
                 min={0}
+                value={Number(maxDistance)}
               />
             </>
           }
@@ -89,10 +71,10 @@ const ListingsNavButtons: FC<NavButtonsProps> = ({ listings }) => {
             <>
               <SingleSelectionList
                 labels={rideOptions}
-                clickHandler={rideOptionsHandler}
+                clickHandler={(value) => filters.setNewValue('rideType', value)}
                 hoverBg="highlight"
                 hoverTxt="primary"
-                activeLabel={selectedRideType}
+                activeLabel={rideType}
               />
             </>
           }
@@ -105,7 +87,7 @@ const ListingsNavButtons: FC<NavButtonsProps> = ({ listings }) => {
             <>
               <SingleSelectionList
                 labels={['Nearest Departure', 'Shortest', 'Longest']}
-                clickHandler={sortingHandler}
+                clickHandler={(value) => filters.setNewValue('sorting', value)}
                 hoverBg="highlight"
                 hoverTxt="primary"
                 activeLabel={sorting}
@@ -115,7 +97,12 @@ const ListingsNavButtons: FC<NavButtonsProps> = ({ listings }) => {
         />
       </div>
       <div>
-        <Button label="Apply" onClick={() => {}} type="submit" />
+        <Button
+          label="Apply"
+          onClick={handleSubmit}
+          type="submit"
+          disabled={isLoading}
+        />
       </div>
     </>
   );

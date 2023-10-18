@@ -40,20 +40,20 @@ export async function POST(request: Request) {
   const newRide = await prisma.listing.create({
     data: {
       title,
-      city: city.value,
-      district,
+      city: city.value.toLowerCase(),
+      district: district.toLowerCase(),
       meetingDescription,
       startDate,
       departure,
-      bikeType: bikeType.value,
-      rideType: rideType.value,
+      bikeType: bikeType.value.toLowerCase(),
+      rideType: rideType.value.toLowerCase(),
       pace,
       route,
       description,
       ownerId: currentUser.id,
       countryName: country?.name,
       flag: country?.flag,
-      distance,
+      distance: Number(distance),
       meetingPoint: {
         create: {
           lat: meetingPoint.lat,

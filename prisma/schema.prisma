@@ -61,7 +61,7 @@ model Listing {
   createdAt          DateTime      @default(now())
   countryName        String?
   flag               String?
-  distance           String
+  distance           Int
 
   owner   User   @relation(fields: [ownerId], references: [id])
   ownerId String @db.ObjectId
@@ -71,9 +71,9 @@ model Listing {
 
 model Participant {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  listing   Listing? @relation(fields: [listingId], references: [id])
+  listing   Listing? @relation(fields: [listingId], references: [id], onDelete: Cascade)
   listingId String   @db.ObjectId
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String   @db.ObjectId
 
   @@unique([listingId, userId])
@@ -84,6 +84,6 @@ model MeetingPoint {
   lat Float
   lng Float
 
-  listing   Listing? @relation(fields: [listingId], references: [id])
+  listing   Listing? @relation(fields: [listingId], references: [id], onDelete: Cascade)
   listingId String   @unique @db.ObjectId
 }
