@@ -15,6 +15,7 @@ export type Key = keyof Filters;
 type Actions = {
   setNewValue: (stateName: Key, newValue: Filters[Key]) => void;
   setDefaultValue: (stateName: Key) => void;
+  resetFilters: () => void;
 };
 
 const initialState = {
@@ -33,6 +34,7 @@ const useFilters = create<State & Actions>((set) => ({
     set((state) => ({
       filters: { ...state.filters, [stateName]: initialState[stateName] },
     })),
+  resetFilters: () => set({ filters: initialState }),
 }));
 
 export default useFilters;
