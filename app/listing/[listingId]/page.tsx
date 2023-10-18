@@ -32,10 +32,7 @@ const Listing: FC<ListingProps> = async ({ params: { listingId } }) => {
               <h1 className="font-black tracking-wide text-2xl xs:text-4xl md:text-6xl  ">
                 {listing.title}
               </h1>
-              <h3>
-                {listing.bikeType[0].toUpperCase() + listing.bikeType.slice(1)}{' '}
-                bike ride.
-              </h3>
+              <h3>{capitalize(listing.bikeType)} bike ride.</h3>
             </div>
             {/* 2nd heading */}
             <div className="text-light bg-primary flex items-center py-6">
@@ -44,9 +41,11 @@ const Listing: FC<ListingProps> = async ({ params: { listingId } }) => {
                 heading={`The ride will start in
             ${
               listing.district
-                ? ` ${listing.city}, ${listing.district}`
-                : `${listing.city}`
-            }, ${listing.countryName}.`}
+                ? ` ${capitalize(listing.city)}, ${capitalize(
+                    listing.district
+                  )}`
+                : `${capitalize(listing.city)}`
+            }, ${capitalize(listing.countryName!)}.`}
               />
             </div>
           </div>
