@@ -8,7 +8,7 @@ import { BsGoogle } from 'react-icons/bs';
 import { toast } from 'react-hot-toast';
 import PrimaryInput from '../inputs/PrimaryInput';
 import Modal from './Modal';
-import Button from '../Button';
+import Button from '../buttons/Button';
 import useRegisterModal from '@/app/hooks/useRegisterModal';
 import useLoginModal from '@/app/hooks/useLoginModal';
 

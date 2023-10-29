@@ -14,6 +14,11 @@ const getListingById = async (id: string) => {
             user: true,
           },
         },
+        messages: {
+          include: {
+            user: true,
+          },
+        },
       },
     });
     if (!listing) {

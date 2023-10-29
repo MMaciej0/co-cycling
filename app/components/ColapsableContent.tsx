@@ -29,7 +29,7 @@ const ColapsableContent: FC<ColapsableContentProps> = ({ label, content }) => {
       <div
         onClick={() => setIsExpanded(!isExpanded)}
         className={`${
-          isExpanded ? 'max-h-full opacity-1' : 'max-h-0 opacity-0'
+          isExpanded ? 'h-full opacity-1' : 'h-0 opacity-0'
         } text-center md:text-start pt-4 max-w-[450px] mx-auto transition-all cursor-pointer`}
       >
         {content}

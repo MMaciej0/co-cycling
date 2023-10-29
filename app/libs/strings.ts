@@ -4,5 +4,5 @@ export const capitalize = (string: string) => {
     .map((str) => {
       return str[0].toUpperCase() + str.slice(1);
     })
-    .join();
+    .join(' ');
 };

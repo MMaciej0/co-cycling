@@ -3,9 +3,10 @@
 import { FC } from 'react';
 import { format } from 'date-fns';
 import Heading from './Heading';
-import Button from './Button';
+import Button from './buttons/Button';
 import { Listing } from '@prisma/client';
 import { useRouter } from 'next/navigation';
+import { capitalize } from '../libs/strings';
 
 interface ListingCardProps {
   listing: Listing;
@@ -40,16 +41,16 @@ const ListingCard: FC<ListingCardProps> = ({ listing, key }) => {
           <div className="grid grid-cols-3">
             <div className="py-2">
               <p className="font-semibold text-highlight">Country: </p>
-              <p>{listing.countryName}</p>
+              <p>{capitalize(listing.countryName!)}</p>
             </div>
             <div className="py-2">
               <p className="font-semibold text-highlight">City: </p>
-              <p>{listing.city}</p>
+              <p>{capitalize(listing.city)}</p>
             </div>
             {listing.district && (
               <div className="py-2">
                 <p className="font-semibold text-highlight">District: </p>
-                <p>{listing.district}</p>
+                <p>{capitalize(listing.district)}</p>
               </div>
             )}
             <div className="py-2 col-span-3 flex">

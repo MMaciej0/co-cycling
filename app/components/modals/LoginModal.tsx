@@ -8,7 +8,7 @@ import { BsStrava, BsGoogle } from 'react-icons/bs';
 import { toast } from 'react-hot-toast';
 import PrimaryInput from '../inputs/PrimaryInput';
 import Modal from './Modal';
-import Button from '../Button';
+import Button from '../buttons/Button';
 import useLoginModal from '@/app/hooks/useLoginModal';
 import useRegisterModal from '@/app/hooks/useRegisterModal';
 

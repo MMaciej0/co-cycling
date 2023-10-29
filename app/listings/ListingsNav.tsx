@@ -3,7 +3,7 @@
 import { FC } from 'react';
 import ListingsNavButtons from './ListingsNavButtons';
 import ListingsNavResults from './ListingsNavResults';
-import DropdownButton from '../components/DropdownButton';
+import DropdownButton from '../components/buttons/DropdownButton';
 import { Listing } from '@prisma/client';
 import useFiltersDropdown from '../hooks/useFiltersDropdown';
 

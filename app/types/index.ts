@@ -14,4 +14,15 @@ interface Participant {
   user: User;
 }
 
-export type SafeListing = Listing & { participants: Participant[] };
+export interface Message {
+  id: string;
+  text: string;
+  listingId: string;
+  user: User;
+  userId: string;
+}
+
+export type SafeListing = Listing & {
+  participants: Participant[];
+  messages: Message[];
+};

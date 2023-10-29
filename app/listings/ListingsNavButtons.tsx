@@ -1,11 +1,11 @@
 'use client';
 
 import { FC, useMemo, useState } from 'react';
-import DropdownButton from '../components/DropdownButton';
+import DropdownButton from '../components/buttons/DropdownButton';
 import RangeSlider from '../components/RangeSlider';
 import { rideTypesOptions } from '../components/modals/CreateModal';
 import SingleSelectionList from '../components/SingleSelectionList';
-import Button from '../components/Button';
+import Button from '../components/buttons/Button';
 import { Listing } from '@prisma/client';
 import useFiltersDropdown from '../hooks/useFiltersDropdown';
 import useQueryParams from '../hooks/useQueryParams';

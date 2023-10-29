@@ -2,7 +2,7 @@
 
 import { FC, useState } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
-import Button from '../Button';
+import Button from '../buttons/Button';
 import Avatar from '../Avatar';
 import useRegisterToRide from '@/app/hooks/useRegisterToRide';
 import { SafeListing, SafeUser } from '@/app/types';
@@ -45,15 +45,17 @@ const UsersSlider: FC<UsersSliderProps> = ({ currentUser, listing }) => {
           </div>
         </div>
       )}
-      <div className="w-full lg:max-w-[100px] pt-6 lg:pt-0">
-        <Button
-          small
-          label={hasSignedIn ? 'Sign out' : 'Sign in'}
-          type="button"
-          onClick={handleActionButton}
-          disabled={isOwner || isLoading}
-        />
-      </div>
+      {!isOwner && (
+        <div className="w-full lg:max-w-[100px] pt-6 lg:pt-0">
+          <Button
+            small
+            label={hasSignedIn ? 'Sign out' : 'Sign in'}
+            type="button"
+            onClick={handleActionButton}
+            disabled={isOwner || isLoading}
+          />
+        </div>
+      )}
     </div>
   );
 };

@@ -40,7 +40,12 @@ const Button: React.FC<ButtonProps> = ({
       }`}
     >
       {Icon && (
-        <Icon className="hidden sml:block absolute top-4 left-8" size={20} />
+        <Icon
+          className={`hidden sml:block absolute ${
+            small ? 'top-2' : 'top-4'
+          }  left-8`}
+          size={20}
+        />
       )}
       {label}
     </button>

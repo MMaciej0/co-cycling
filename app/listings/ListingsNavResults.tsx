@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
-import Button from '../components/Button';
+import Button from '../components/buttons/Button';
 import Heading from '../components/Heading';
 import useQueryParams from '../hooks/useQueryParams';
 import useFilters, { Key } from '../hooks/useFilters';

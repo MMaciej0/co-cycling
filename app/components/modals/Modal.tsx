@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import Heading from '../Heading';
-import Button from '../Button';
+import Button from '../buttons/Button';
 
 interface ModalProps {
   heading: string;
@@ -36,6 +36,11 @@ const Modal: React.FC<ModalProps> = ({
 
   useEffect(() => {
     setShowModal(isOpen);
+    if (isOpen) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
   }, [isOpen]);
 
   const handleClose = useCallback(() => {

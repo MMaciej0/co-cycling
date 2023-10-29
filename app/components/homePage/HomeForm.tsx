@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import PrimaryInput from '../inputs/PrimaryInput';
-import Button from '../Button';
+import Button from '../buttons/Button';
 import PrimarySelect from '../selects/PrimarySelect';
 import CitySelect from '../selects/CitySelect';
 import Heading from '../Heading';

@@ -1,7 +1,7 @@
 import ListingCard from '../components/ListingCard';
 import getListings, { ListingParams } from '../actions/getListings';
 import Link from 'next/link';
-import DropdownButton from '../components/DropdownButton';
+import DropdownButton from '../components/buttons/DropdownButton';
 import PrimaryInput from '../components/inputs/PrimaryInput';
 import ListingsNav from './ListingsNav';
 

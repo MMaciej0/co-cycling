@@ -3,13 +3,14 @@
 import { FC, ReactNode, useEffect, useRef, useState } from 'react';
 import { BiSolidChevronDown } from 'react-icons/bi';
 import Button from './Button';
-import useClickOutside from '../hooks/useClickOutside';
+import useClickOutside from '../../hooks/useClickOutside';
 
 type DropdownButtonProps = {
   label: string;
   listContent: ReactNode;
   isOpen?: boolean;
   forceStatus?: (status: boolean) => void;
+  small?: boolean;
 };
 
 const DropdownButton: FC<DropdownButtonProps> = ({
@@ -17,6 +18,7 @@ const DropdownButton: FC<DropdownButtonProps> = ({
   listContent,
   isOpen,
   forceStatus,
+  small,
 }) => {
   const [listVisible, setListVisible] = useState(
     isOpen !== undefined ? isOpen : false
@@ -24,7 +26,12 @@ const DropdownButton: FC<DropdownButtonProps> = ({
   const btnRef = useRef(null);
 
   useEffect(() => {
-    isOpen !== undefined && setListVisible(isOpen);
+    if (isOpen) {
+      setListVisible(isOpen);
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
   }, [isOpen]);
 
   useClickOutside(() => {
@@ -42,7 +49,7 @@ const DropdownButton: FC<DropdownButtonProps> = ({
   };
 
   return (
-    <>
+    <div className="w-full">
       <div
         className={`${
           listVisible ? 'fixed' : 'hidden'
@@ -56,18 +63,19 @@ const DropdownButton: FC<DropdownButtonProps> = ({
           onClick={handleButtonClick}
           outline
           active={listVisible}
+          small={small}
         />
         <ul
           className={`${
             listVisible
-              ? 'min-h-full opacity-1  rounded-md'
-              : 'h-0 opacity-0 -z-40'
-          } transition-all w-full absolute top-20 p-2 bg-primary shadow-lg shadow-highlight/20`}
+              ? 'min-h-full opacity-1 rounded-md'
+              : 'h-0 opacity-0 -z-40 hidden'
+          } transition-all w-full p-2 absolute my-10 bg-primary shadow-lg shadow-highlight/20`}
         >
           {listContent}
         </ul>
       </div>
-    </>
+    </div>
   );
 };
 
