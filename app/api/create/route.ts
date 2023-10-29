@@ -56,8 +56,8 @@ export async function POST(request: Request) {
       distance: Number(distance),
       meetingPoint: {
         create: {
-          lat: meetingPoint.lat,
-          lng: meetingPoint.lng,
+          lat: Number(meetingPoint.lat),
+          lng: Number(meetingPoint.lng),
         },
       },
     },
