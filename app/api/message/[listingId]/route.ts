@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import getCurrentUser from '@/app/actions/getCurrentUser';
 import { prisma } from '@/app/libs/db';
+import { pusherServer } from '@/app/libs/pusher';
 
 interface ListingParams {
   listingId?: string;
@@ -34,7 +35,13 @@ export const POST = async (
       userId: currentUser.id,
       listingId: listingId,
     },
+    include: {
+      user: true,
+      listing: true,
+    },
   });
+
+  await pusherServer.trigger(listingId, 'message', newMessage);
 
   return NextResponse.json({ newMessage });
 };

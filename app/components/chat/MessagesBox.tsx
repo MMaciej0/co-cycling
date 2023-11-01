@@ -1,6 +1,8 @@
-import { Message, SafeUser } from '@/app/types';
-import React, { FC } from 'react';
+'use client';
+
+import React, { FC, useEffect, useRef } from 'react';
 import Avatar from '../Avatar';
+import { Message, SafeUser } from '@/app/types';
 
 interface MessagesBoxProps {
   messages: Message[];
@@ -8,6 +10,12 @@ interface MessagesBoxProps {
 }
 
 const MessagesBox: FC<MessagesBoxProps> = ({ messages, currentUser }) => {
+  const messagesBottomRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    messagesBottomRef?.current?.scrollIntoView();
+  }, [messages]);
+
   return (
     <div className="pt-4 px-2 h-full overflow-y-auto">
       {messages.map((message: Message) => {
@@ -22,18 +30,21 @@ const MessagesBox: FC<MessagesBoxProps> = ({ messages, currentUser }) => {
                 <p
                   className={` ${
                     isOwn ? 'bg-highlight text-primary' : 'bg-secondary'
-                  } px-4 py-2 rounded-lg font-medium`}
+                  } px-4 py-2 rounded-lg font-medium text-center`}
                 >
                   {message.text}
                 </p>
-                <p className="absolute left-4 -top-6 font-light text-sm">
-                  {message.user.name}
-                </p>
+                {!isOwn && (
+                  <p className="absolute left-2 -top-6 font-light text-sm">
+                    {message.user.name?.split(' ')[0]}
+                  </p>
+                )}
               </div>
             </div>
           </div>
         );
       })}
+      <div className="pb-20" ref={messagesBottomRef} />
     </div>
   );
 };

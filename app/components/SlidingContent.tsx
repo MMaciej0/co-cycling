@@ -43,7 +43,7 @@ const SlidingContent: FC<SlidingContentProps> = ({
             </button>
           </div>
         </div>
-        <div className="overflow-y-auto h-full grow">{content}</div>
+        <div className="overflow-y-auto h-full grow noscrollbar">{content}</div>
       </div>
     </div>
   );

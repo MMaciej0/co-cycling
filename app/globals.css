@@ -12,6 +12,11 @@
   font-size: 16px !important;
 }
 
+.noscrollbar::-webkit-scrollbar {
+  scrollbar-width: none;
+  display: none;
+}
+
 /* calendar */
 
 .rdrMonth {

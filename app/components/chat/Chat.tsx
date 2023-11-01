@@ -1,18 +1,17 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
+import axios from 'axios';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { BsChatDots } from 'react-icons/bs';
-import { AiOutlineClose } from 'react-icons/ai';
 import Button from '../buttons/Button';
-import useRegisterToRide from '@/app/hooks/useRegisterToRide';
-import { SafeListing, SafeUser } from '@/app/types';
-import Heading from '../Heading';
 import SlidingContentButton from '../buttons/SlidingContentButton';
 import PrimaryInput from '../inputs/PrimaryInput';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import axios from 'axios';
-import toast from 'react-hot-toast';
 import MessagesBox from './MessagesBox';
+import useRegisterToRide from '@/app/hooks/useRegisterToRide';
+import { pusherClient } from '@/app/libs/pusher';
+import { Message, SafeListing, SafeUser } from '@/app/types';
 
 interface ChatProps {
   listing: SafeListing;
@@ -20,6 +19,7 @@ interface ChatProps {
 }
 
 const Chat: FC<ChatProps> = ({ listing, currentUser }) => {
+  const [messages, setMessages] = useState(listing.messages);
   const { hasSignedIn, isOwner } = useRegisterToRide({ listing, currentUser });
 
   const {
@@ -42,13 +42,32 @@ const Chat: FC<ChatProps> = ({ listing, currentUser }) => {
       .catch(() => toast('Something went wrong.'));
   };
 
+  useEffect(() => {
+    pusherClient.subscribe(listing.id);
+
+    const handler = (message: Message) => {
+      setMessages((currentMessages) => {
+        return [...currentMessages, message];
+      });
+    };
+
+    pusherClient.bind('message', handler);
+
+    return () => {
+      pusherClient.unsubscribe(listing.id);
+      pusherClient.unbind('message', handler);
+    };
+  }, [listing.id]);
+
   const chatBody = (
-    <div className="pb-24">
-      {!listing.messages.length ? (
-        <p className="pt-20 text-center text-xl">No one has commented yet.</p>
-      ) : (
-        <MessagesBox messages={listing.messages} currentUser={currentUser} />
-      )}
+    <div className="flex flex-col">
+      <div className="grow h-full overflow-y-auto">
+        {!listing.messages.length ? (
+          <p className="pt-20 text-center text-xl">No one has commented yet.</p>
+        ) : (
+          <MessagesBox messages={messages} currentUser={currentUser} />
+        )}
+      </div>
       <div className="fixed bottom-0 right-0 left-0 max-w-contentContainer mx-auto px-4 md:px-12">
         <div className="flex items-center bg-primary border-t border-highlight/20">
           <div className="basis-4/5">
