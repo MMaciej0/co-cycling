@@ -3,12 +3,14 @@ import citiesDB from 'cities.json';
 export type City = {
   country: string;
   name: string;
-  lat: number;
-  lng: number;
+  lat: string;
+  lng: string;
+  value?: string;
+  label?: string;
 };
 
-const cities = citiesDB as City[];
-const formatedCities = cities.map((city: City) => ({
+// @ts-ignore
+const formatedCities = citiesDB.map((city: City) => ({
   ...city,
   value: city.name,
   label: city.name,
@@ -19,11 +21,11 @@ const useCities = () => {
 
   const getByName = (name: string) =>
     formatedCities.find(
-      (city) => city.name.toLowerCase() === name.toLowerCase()
+      (city: City) => city.name.toLowerCase() === name.toLowerCase()
     );
 
   const getBySubstring = (val: string) =>
-    formatedCities.filter((city) =>
+    formatedCities.filter((city: City) =>
       city.name.toLowerCase().includes(val.toLowerCase())
     );
 
