@@ -2,6 +2,8 @@
 
 ### An application that allows organization of joint bicycle rides.
 
+### Live Demo: https://co-cycling.vercel.app/
+
 ## Table of contents
 
 - [General info](#general-info)
