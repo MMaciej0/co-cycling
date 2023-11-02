@@ -12,8 +12,8 @@ export interface CityOption {
   value: string;
   country?: string;
   name?: string;
-  lat?: number;
-  lng?: number;
+  lat?: number | string;
+  lng?: number | string;
 }
 
 interface CitySelectProps {
