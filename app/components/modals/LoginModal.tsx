@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { signIn } from 'next-auth/react';
-import { BsStrava, BsGoogle } from 'react-icons/bs';
+import { BsGoogle } from 'react-icons/bs';
 import { toast } from 'react-hot-toast';
 import PrimaryInput from '../inputs/PrimaryInput';
 import Modal from './Modal';

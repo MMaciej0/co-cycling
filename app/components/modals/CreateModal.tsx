@@ -9,11 +9,12 @@ import { toast } from 'react-hot-toast';
 import { add } from 'date-fns';
 import PrimaryInput from '../inputs/PrimaryInput';
 import Modal from './Modal';
-import CitySelect, { CityOption } from '../selects/CitySelect';
+import CitySelect from '../selects/CitySelect';
 import PrimarySelect from '../selects/PrimarySelect';
 import Heading from '../Heading';
 import Calendar from '../Calendar';
 import useCreateModal from '@/app/hooks/useCreateModal';
+import { City } from '@/app/hooks/useCities';
 import { Location } from '@/app/types';
 import { bikeTypesOptions } from '../homePage/HomeForm';
 
@@ -47,7 +48,6 @@ const CreateModal = () => {
     watch,
     setValue,
     reset,
-    getValues,
   } = useForm<FieldValues>({
     defaultValues: {
       title: '',
@@ -107,7 +107,7 @@ const CreateModal = () => {
     setValue('startDate', newDate);
   };
 
-  const handleCitySelect = (newValue: CityOption) => {
+  const handleCitySelect = (newValue: City) => {
     reset();
     if (newValue) {
       changeDate(initialDate);

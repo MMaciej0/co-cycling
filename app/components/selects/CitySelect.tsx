@@ -1,20 +1,11 @@
 'use client';
 
-import useCities from '@/app/hooks/useCities';
+import useCities, { City } from '@/app/hooks/useCities';
 import { useId } from 'react';
 import { Control, Controller, FieldErrors, FieldValues } from 'react-hook-form';
 import { createFilter } from 'react-select';
 import AsyncSelect from 'react-select/async';
 import { getCustomStyles } from './PrimarySelect';
-
-export interface CityOption {
-  label: string;
-  value: string;
-  country?: string;
-  name?: string;
-  lat?: number | string;
-  lng?: number | string;
-}
 
 interface CitySelectProps {
   control: Control<FieldValues>;
@@ -24,7 +15,7 @@ interface CitySelectProps {
   name: string;
   errors: FieldErrors;
   controlledValue?: string;
-  customChange?: (value: CityOption) => void;
+  customChange?: (value: City) => void;
 }
 
 const CitySelect: React.FC<CitySelectProps> = ({
@@ -41,19 +32,17 @@ const CitySelect: React.FC<CitySelectProps> = ({
   const customStyles = getCustomStyles(errors, name);
   const id = useId();
 
-  const filterCities = (value: string) => {
-    const inputValue = value.trim().toLowerCase();
+  const promiseOptions = (inputValue: string) => {
+    const input = inputValue.trim().toLowerCase();
     const inputLength = inputValue.length;
+    if (inputLength < 3) return;
 
-    return inputLength >= 3 ? getBySubstring(value) : [];
-  };
-
-  const promiseOptions = (inputValue: string) =>
-    new Promise<CityOption[]>((resolve) => {
+    return new Promise<City[]>((resolve) => {
       setTimeout(() => {
-        resolve(filterCities(inputValue));
+        resolve(getBySubstring(input));
       }, 1000);
     });
+  };
 
   return (
     <Controller
@@ -70,7 +59,7 @@ const CitySelect: React.FC<CitySelectProps> = ({
           ref={ref}
           value={controlledValue || value}
           onChange={(v) => {
-            const newValue = v as CityOption;
+            const newValue = v as City;
             if (customChange) {
               customChange(newValue);
             } else {
