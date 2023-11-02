@@ -112,7 +112,10 @@ const CreateModal = () => {
     if (newValue) {
       changeDate(initialDate);
       setValue('city', newValue);
-      setMeetingPoint({ lat: newValue.lat!, lng: newValue.lng! });
+      setMeetingPoint({
+        lat: Number(newValue.lat!),
+        lng: Number(newValue.lng!),
+      });
     }
   };
 
