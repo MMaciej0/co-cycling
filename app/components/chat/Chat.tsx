@@ -62,7 +62,7 @@ const Chat: FC<ChatProps> = ({ listing, currentUser }) => {
   const chatBody = (
     <div className="flex flex-col">
       <div className="grow h-full overflow-y-auto">
-        {!listing.messages.length ? (
+        {!messages.length ? (
           <p className="pt-20 text-center text-xl">No one has commented yet.</p>
         ) : (
           <MessagesBox messages={messages} currentUser={currentUser} />
