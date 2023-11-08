@@ -15,11 +15,9 @@ const useRegisterToRide = ({ listing, currentUser }: RegisterToRideProps) => {
   const router = useRouter();
 
   const hasSignedIn = useMemo(() => {
-    return listing.participants.find(
+    return listing.participants?.find(
       (participant) => participant.userId === currentUser?.id
-    )
-      ? true
-      : false;
+    );
   }, [listing, currentUser]);
 
   const isOwner = useMemo(

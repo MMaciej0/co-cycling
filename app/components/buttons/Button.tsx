@@ -12,6 +12,7 @@ interface ButtonProps {
   disabled?: boolean;
   small?: boolean;
   active?: boolean;
+  border?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -23,15 +24,16 @@ const Button: React.FC<ButtonProps> = ({
   disabled,
   small,
   active,
+  border = true,
 }) => {
   return (
     <button
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`relative w-full border-[1px] border-highlight ${
-        small ? 'py-2' : 'py-4'
-      } tracking-widest font-semibold rounded-md ${
+      className={`relative w-full ${
+        border && 'border-[1px] border-highlight rounded-md'
+      }  ${small ? 'py-2 px-2' : 'py-4 px-4'} tracking-widest font-semibold ${
         outline
           ? ` hover:text-primary ${active && 'bg-highlight text-primary'}`
           : 'bg-highlight/70 text-primary'

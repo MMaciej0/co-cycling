@@ -10,16 +10,14 @@ import { capitalize } from '../libs/strings';
 
 interface ListingCardProps {
   listing: Listing;
-  key: string;
 }
 
-const ListingCard: FC<ListingCardProps> = ({ listing, key }) => {
+const ListingCard: FC<ListingCardProps> = ({ listing }) => {
   const router = useRouter();
 
   return (
     <div
       onClick={() => router.push(`/listing/${listing.id}`)}
-      key={key}
       className="rounded-md overflow-hidden shadow-lg shadow-highlight/20 border border-highlight/20 hover:scale-[1.02] transition duration-300 cursor-pointer"
     >
       <div className="border-b border-highlight">

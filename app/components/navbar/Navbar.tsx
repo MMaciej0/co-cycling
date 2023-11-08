@@ -1,11 +1,10 @@
-'use client';
-
-import { SafeUser } from '@/app/types';
-import Logo from './Logo';
+import UserLoginMenu from './UserLoginMenu';
 import UserMenu from './UserMenu';
+import Logo from './Logo';
+import { SafeUser } from '@/app/types';
 
 interface NavbarProps {
-  currentUser?: SafeUser | null;
+  currentUser: SafeUser | null;
 }
 
 const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
@@ -15,7 +14,11 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
         <div className="flex justify-between items-center">
           <Logo />
           <div className="flex space-x-10 items-center">
-            <UserMenu currentUser={currentUser} />
+            {currentUser ? (
+              <UserMenu currentUser={currentUser} />
+            ) : (
+              <UserLoginMenu />
+            )}
           </div>
         </div>
         <div className="border-b-[1px] border-highlight/10 mx-6 pt-4" />

@@ -14,7 +14,7 @@ const Logo = () => {
   };
 
   return (
-    <div onClick={handleClick} className="text-highlight cursor-pointer">
+    <div onClick={handleClick} className="text-highlight cursor-pointer z-50">
       <p className="font-semibold text-4xl tracking-tighter">
         <span>C</span>
         <RxColorWheel size={20} className="inline ml-[3px]" />

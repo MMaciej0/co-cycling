@@ -23,6 +23,6 @@ export interface Message {
 }
 
 export type SafeListing = Listing & {
-  participants: Participant[];
-  messages: Message[];
+  participants?: Participant[];
+  messages?: Message[];
 };
