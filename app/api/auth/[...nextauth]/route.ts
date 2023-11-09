@@ -1,18 +1,14 @@
 import bcrypt from 'bcrypt';
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
-import StravaProvider from 'next-auth/providers/strava';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { prisma } from '@/app/libs/db';
+import { User } from '@prisma/client';
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
-    StravaProvider({
-      clientId: process.env.STRAVA_CLIENT_ID as string,
-      clientSecret: process.env.STRAVA_CLIENT_SECRET as string,
-    }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
@@ -56,13 +52,17 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     session: ({ session, token }) => {
-      return { ...session, user: { ...session.user, id: token.id } };
+      return {
+        ...session,
+        user: { ...session.user, id: token.id },
+      };
     },
     jwt: ({ token, user }) => {
-      if (user) {
+      const customUser = user as unknown as User;
+      if (customUser) {
         return {
           ...token,
-          id: user.id,
+          id: customUser.id,
         };
       }
       return token;

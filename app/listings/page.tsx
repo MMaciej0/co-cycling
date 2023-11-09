@@ -2,6 +2,8 @@ import Link from 'next/link';
 import ListingsNav from './ListingsNav';
 import ListingCard from '../components/ListingCard';
 import getListings, { ListingParams } from '../actions/getListings';
+import getCurrentUser from '../actions/getCurrentUser';
+import getUserFavorites from '../actions/getUserFavorites';
 
 interface ListingProps {
   searchParams: ListingParams;
@@ -9,10 +11,12 @@ interface ListingProps {
 
 const ListingsPage = async ({ searchParams }: ListingProps) => {
   const listings = await getListings(searchParams);
+  const userFavorites = await getUserFavorites();
+  const currentUser = await getCurrentUser();
 
   return (
     <div className="pt-20 px-4 md:px-12 pb-10 max-w-contentContainer m-auto">
-      <div className="py-20">
+      <div className="py-10 md:py-20">
         <ListingsNav listings={listings} />
       </div>
       {!listings.length ? (
@@ -25,7 +29,12 @@ const ListingsPage = async ({ searchParams }: ListingProps) => {
       ) : (
         <div className="grid grid-cold-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
           {listings.map((listing) => (
-            <ListingCard key={listing.id} listing={listing} />
+            <ListingCard
+              key={listing.id}
+              listing={listing}
+              favorites={userFavorites}
+              currentUser={currentUser}
+            />
           ))}
         </div>
       )}

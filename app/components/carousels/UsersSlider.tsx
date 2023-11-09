@@ -28,12 +28,12 @@ const UsersSlider: FC<UsersSliderProps> = ({ currentUser, listing }) => {
 
   return (
     <div className="flex flex-col lg:flex-row items-center w-full">
-      {listing.participants.length === 0 ? (
+      {!listing.participants || listing.participants?.length === 0 ? (
         <div className="grow w-full">No one has signed up yet.</div>
       ) : (
         <div ref={emblaRef} className="grow w-full overflow-hidden py-4">
           <div className="flex">
-            {listing.participants.map((participant) => (
+            {listing.participants?.map((participant) => (
               <div
                 className="mr-4 flex items-center space-x-4 px-2 py-1 rounded-md border-secondary border"
                 key={participant.id}

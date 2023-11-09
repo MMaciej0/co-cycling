@@ -1,26 +1,37 @@
 'use client';
 
 import { FC } from 'react';
+import { useRouter } from 'next/navigation';
 import { format } from 'date-fns';
 import Heading from './Heading';
 import Button from './buttons/Button';
+import FavoriteButton from './buttons/FavoriteButton';
+import HighlightedInfo from './HighlightedInfo';
 import { Listing } from '@prisma/client';
-import { useRouter } from 'next/navigation';
 import { capitalize } from '../libs/strings';
+import { SafeUser } from '../types';
 
 interface ListingCardProps {
   listing: Listing;
+  favorites: string[] | null;
+  currentUser: SafeUser | null;
 }
 
-const ListingCard: FC<ListingCardProps> = ({ listing }) => {
+const ListingCard: FC<ListingCardProps> = ({
+  listing,
+  favorites,
+  currentUser,
+}) => {
   const router = useRouter();
 
   return (
-    <div
-      onClick={() => router.push(`/listing/${listing.id}`)}
-      className="rounded-md overflow-hidden shadow-lg shadow-highlight/20 border border-highlight/20 hover:scale-[1.02] transition duration-300 cursor-pointer"
-    >
-      <div className="border-b border-highlight">
+    <div className="rounded-md overflow-hidden shadow-lg shadow-highlight/20 border border-highlight/20 hover:scale-[1.02] transition duration-300 cursor-pointer">
+      <div className="border-b border-highlight relative">
+        <FavoriteButton
+          currentUser={currentUser}
+          userFavorites={favorites}
+          listingId={listing.id}
+        />
         <div className="opacity-1">
           <Heading
             center
@@ -37,40 +48,40 @@ const ListingCard: FC<ListingCardProps> = ({ listing }) => {
       >
         <div className="relative min-h-[150px]">
           <div className="grid grid-cols-3">
-            <div className="py-2">
-              <p className="font-semibold text-highlight">Country: </p>
-              <p>{capitalize(listing.countryName!)}</p>
-            </div>
-            <div className="py-2">
-              <p className="font-semibold text-highlight">City: </p>
-              <p>{capitalize(listing.city)}</p>
-            </div>
+            <HighlightedInfo
+              title="Country: "
+              content={<p>{capitalize(listing.countryName!)}</p>}
+            />
+            <HighlightedInfo
+              title="City: "
+              content={<p>{capitalize(listing.city)}</p>}
+            />
             {listing.district && (
-              <div className="py-2">
-                <p className="font-semibold text-highlight">District: </p>
-                <p>{capitalize(listing.district)}</p>
-              </div>
+              <HighlightedInfo
+                title="District: "
+                content={<p>{capitalize(listing.district)}</p>}
+              />
             )}
             <div className="py-2 col-span-3 flex">
-              <p className="font-semibold text-highlight">Date: </p>
-              <p className="ml-2">
-                {format(new Date(listing.startDate), 'PPPP')}
-              </p>
+              <HighlightedInfo
+                title="Date: "
+                content={
+                  <span> {format(new Date(listing.startDate), 'PPPP')}</span>
+                }
+              />
             </div>
-            <div className="py-2">
-              <p className="font-semibold text-highlight">Departure: </p>
-              <p>{listing.departure}</p>
-            </div>
-            <div className="py-2">
-              <p className="font-semibold text-highlight">Ride type: </p>
-              <p>{`${listing.rideType[0].toUpperCase()}${listing.rideType.slice(
-                1
-              )}`}</p>
-            </div>
-            <div className="py-2">
-              <p className="font-semibold text-highlight">Distance: </p>
-              <p>{listing.distance} km</p>
-            </div>
+            <HighlightedInfo
+              title="Departure: "
+              content={<p>{listing.departure}</p>}
+            />
+            <HighlightedInfo
+              title="Ride type: "
+              content={<p>{capitalize(listing.rideType)}</p>}
+            />
+            <HighlightedInfo
+              title="Distance: "
+              content={<p>{listing.distance} km</p>}
+            />
           </div>
           <div className="pt-6">
             <Button
