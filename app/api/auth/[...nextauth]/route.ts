@@ -54,17 +54,32 @@ export const authOptions: NextAuthOptions = {
     session: ({ session, token }) => {
       return {
         ...session,
-        user: { ...session.user, id: token.id },
+        user: { ...session.user, id: token.id, favoriteIds: token.favoriteIds },
       };
     },
-    jwt: ({ token, user }) => {
+    jwt: async ({ token, user, session, trigger }) => {
+      if (trigger === 'update') {
+        token.favoriteIds = session.favoriteIds;
+
+        await prisma.user.update({
+          where: {
+            id: token.id as string,
+          },
+          data: {
+            favoriteIds: token.favoriteIds as string[],
+          },
+        });
+      }
+
       const customUser = user as unknown as User;
       if (customUser) {
         return {
           ...token,
           id: customUser.id,
+          favoriteIds: customUser.favoriteIds,
         };
       }
+
       return token;
     },
   },

@@ -9,29 +9,18 @@ import FavoriteButton from './buttons/FavoriteButton';
 import HighlightedInfo from './HighlightedInfo';
 import { Listing } from '@prisma/client';
 import { capitalize } from '../libs/strings';
-import { SafeUser } from '../types';
 
 interface ListingCardProps {
   listing: Listing;
-  favorites: string[] | null;
-  currentUser: SafeUser | null;
 }
 
-const ListingCard: FC<ListingCardProps> = ({
-  listing,
-  favorites,
-  currentUser,
-}) => {
+const ListingCard: FC<ListingCardProps> = ({ listing }) => {
   const router = useRouter();
 
   return (
     <div className="rounded-md overflow-hidden shadow-lg shadow-highlight/20 border border-highlight/20 hover:scale-[1.02] transition duration-300 cursor-pointer">
       <div className="border-b border-highlight relative">
-        <FavoriteButton
-          currentUser={currentUser}
-          userFavorites={favorites}
-          listingId={listing.id}
-        />
+        <FavoriteButton listingId={listing.id} />
         <div className="opacity-1">
           <Heading
             center

@@ -7,6 +7,9 @@ import CreateModal from './components/modals/CreateModal';
 import ToasterProvider from './providers/ToasterProvider';
 import getCurrentUser from './actions/getCurrentUser';
 import { SafeUser } from './types';
+import SessionProvider from '@/app/providers/SessionProvider';
+import { getServerSession } from 'next-auth';
+import { authOptions } from './api/auth/[...nextauth]/route';
 
 const raleway = Raleway({ subsets: ['latin'] });
 
@@ -15,17 +18,19 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const user = await getCurrentUser();
+  const session = await getServerSession(authOptions);
 
   return (
     <html lang="en">
       <body className={`${raleway.className} bg-primary text-light`}>
-        <Navbar currentUser={user as SafeUser} />
-        <RegisterModal />
-        <LoginModal />
-        <CreateModal />
-        <ToasterProvider />
-        {children}
+        <SessionProvider session={session}>
+          <Navbar currentUser={session?.user as SafeUser} />
+          <RegisterModal />
+          <LoginModal />
+          <CreateModal />
+          <ToasterProvider />
+          {children}
+        </SessionProvider>
       </body>
     </html>
   );

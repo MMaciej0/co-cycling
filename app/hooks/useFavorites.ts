@@ -1,18 +1,36 @@
-import { useCallback, useMemo } from 'react';
-import { prisma } from '../libs/db';
-import { SafeUser } from '../types';
+import { create } from 'zustand';
+import axios from 'axios';
 
-interface FavoritesProps {
-  userId: SafeUser | null;
-  listingId: string;
+interface State {
+  favorites: string[] | null;
 }
 
-const useFavorites = ({ userId, listingId }: FavoritesProps) => {
-  const hasFavorited = true;
-
-  return {
-    hasFavorited,
-  };
+type Actions = {
+  setFavorites: (favorites: string[]) => void;
+  updateFavorites: (id: string) => void;
+  checkFavorites: (id: string) => boolean | undefined;
 };
+
+const initialState = {
+  favorites: null,
+};
+
+const useFavorites = create<State & Actions>((set, get) => ({
+  favorites: initialState.favorites,
+  setFavorites: (favorites) => set(() => ({ favorites })),
+  checkFavorites: (id) => get().favorites?.includes(id),
+  updateFavorites: async (id) => {
+    if (get().checkFavorites(id)) {
+      set((state) => ({
+        favorites: state.favorites?.filter((fav) => fav !== id),
+      }));
+    } else {
+      set((state) => ({
+        favorites: state.favorites ? [...state.favorites, id] : [id],
+      }));
+    }
+    await axios.post(`/api/favorites/${id}`, { newFavIds: get().favorites });
+  },
+}));
 
 export default useFavorites;

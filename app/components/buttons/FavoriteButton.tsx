@@ -1,41 +1,45 @@
 'use client';
 
-import { FC, useMemo, useState } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import { RxColorWheel } from 'react-icons/rx';
 import useLoginModal from '@/app/hooks/useLoginModal';
 import { SafeUser } from '@/app/types';
+import { useRouter } from 'next/navigation';
+import useFavorites from '@/app/hooks/useFavorites';
+import { useSession } from 'next-auth/react';
 
 interface FavoriteButtonProps {
-  userFavorites: string[] | null;
-  currentUser: SafeUser | null;
   listingId: string;
 }
 
-const FavoriteButton: FC<FavoriteButtonProps> = ({
-  userFavorites,
-  currentUser,
-  listingId,
-}) => {
-  const [favoritedIds, setFavoritedIds] = useState(userFavorites || []);
+const FavoriteButton: FC<FavoriteButtonProps> = ({ listingId }) => {
   const loginModal = useLoginModal();
+  const { data: session, update } = useSession();
+  const user = session?.user as SafeUser;
 
   const hasFavorited = useMemo(() => {
-    return favoritedIds?.includes(listingId);
-  }, [listingId, favoritedIds]);
+    return user?.favoriteIds.includes(listingId);
+  }, [user?.favoriteIds, listingId]);
 
   const toggleFavorite = async () => {
-    if (!currentUser) return loginModal.onOpen();
+    if (!user) return loginModal.onOpen();
 
-    let newFavIds;
     if (hasFavorited) {
-      newFavIds = favoritedIds.filter((id) => id !== listingId);
-      setFavoritedIds(newFavIds);
+      console.log(
+        'delete',
+        listingId,
+        user.favoriteIds.filter((id) => id !== listingId)
+      );
+      update({
+        favoriteIds: user.favoriteIds.filter((id) => id !== listingId),
+      });
     } else {
-      newFavIds = [...favoritedIds, listingId];
-      setFavoritedIds(newFavIds);
+      console.log('add', listingId, [...user.favoriteIds, listingId]);
+      update({
+        favoriteIds: [...user.favoriteIds, listingId],
+      });
     }
-    axios.post(`/api/favorites/${listingId}`, newFavIds);
   };
 
   return (

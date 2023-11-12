@@ -11,6 +11,7 @@ const Logo = () => {
   const handleClick = () => {
     filters.resetFilters();
     router.push('/');
+    router.refresh();
   };
 
   return (
