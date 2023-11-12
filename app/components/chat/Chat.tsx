@@ -19,7 +19,7 @@ interface ChatProps {
 }
 
 const Chat: FC<ChatProps> = ({ listing, currentUser }) => {
-  const [messages, setMessages] = useState(listing.messages);
+  const [messages, setMessages] = useState(listing.messages || []);
   const { hasSignedIn, isOwner } = useRegisterToRide({ listing, currentUser });
 
   const {
