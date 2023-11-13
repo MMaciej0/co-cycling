@@ -2,7 +2,7 @@
 
 ### An application that allows users to organize shared bicycle rides.
 
-### Live Demo: https://co-cycling.vercel.app/
+### [Demo](https://co-cycling-joztz3cn6-mmaciej0.vercel.app/)
 
 ## Table of contents
 
