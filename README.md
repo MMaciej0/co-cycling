@@ -2,7 +2,7 @@
 
 ### An application that allows users to organize shared bicycle rides.
 
-### Live Demo: https://co-cycling.vercel.app/
+### [Demo](https://co-cycling-joztz3cn6-mmaciej0.vercel.app/)
 
 ## Table of contents
 
@@ -17,4 +17,7 @@ As cycling enthusiast, I struggle with the problem that sometimes I cannot find 
 
 ## Technologies
 
-- ### React with Next framoweork and Typescipt(https://skillicons.dev/icons?i=react,nextjs,ts)(https://skillicons.dev)
+- React with Next framoweork and Typescipt
+- Prisma and MongoDB for backend
+- Tailwindcss
+- Zustand for state menagement
