@@ -12,10 +12,18 @@ import { capitalize } from '../libs/strings';
 
 interface ListingCardProps {
   listing: Listing;
+  action?: () => void;
 }
 
-const ListingCard: FC<ListingCardProps> = ({ listing }) => {
+const ListingCard: FC<ListingCardProps> = ({ listing, action }) => {
   const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/listing/${listing.id}`);
+    if (action) {
+      action();
+    }
+  };
 
   return (
     <div className="rounded-md overflow-hidden shadow-lg shadow-highlight/20 border border-highlight/20 hover:scale-[1.02] transition duration-300 cursor-pointer">
@@ -78,7 +86,7 @@ const ListingCard: FC<ListingCardProps> = ({ listing }) => {
               outline
               type="button"
               label="See details"
-              onClick={() => router.push(`/listing/${listing.id}`)}
+              onClick={handleClick}
             />
           </div>
         </div>

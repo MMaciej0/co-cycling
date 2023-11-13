@@ -14,17 +14,20 @@ interface UserMenuClientWrapperProps {
   userOwnRides: Listing[] | null;
   userParticipations: Listing[] | null;
   currentUser: SafeUser;
+  userFavoritedListings: Listing[] | null;
 }
 
 const UserMenuClientWrapper: FC<UserMenuClientWrapperProps> = ({
   userOwnRides,
   userParticipations,
+  userFavoritedListings,
   currentUser,
 }) => {
   const userMenuState = useUserMenu();
   const [ownRidesVisible, setOwnRidesVisible] = useState(false);
   const [participationRidesVisible, setParticipationRidesVisible] =
     useState(false);
+  const [userFavoritesVisible, setUserFavoritesVisible] = useState(false);
 
   const userMenuBody = (
     <>
@@ -34,7 +37,7 @@ const UserMenuClientWrapper: FC<UserMenuClientWrapperProps> = ({
           border={false}
           heading="Profile"
           buttonLabel="Profile"
-          content={<div>content</div>}
+          content={<div>TODO</div>}
         />
       </li>
       <li className="border-b border-light">
@@ -43,7 +46,22 @@ const UserMenuClientWrapper: FC<UserMenuClientWrapperProps> = ({
           border={false}
           heading="Favourites"
           buttonLabel="Favourites"
-          content={<div>content</div>}
+          externalState={userFavoritesVisible}
+          setExternalState={setUserFavoritesVisible}
+          content={
+            <div className="grid grid-cold-1 md:grid-cols-2 lg:grid-cols-3 gap-16 py-8 px-4 md:px-2">
+              {userFavoritedListings?.map((listing, i) => (
+                <ListingCard
+                  listing={listing}
+                  key={i}
+                  action={() => {
+                    setUserFavoritesVisible(false);
+                    userMenuState.onClose();
+                  }}
+                />
+              ))}
+            </div>
+          }
         />
       </li>
       <li className="border-b border-light">
@@ -57,15 +75,14 @@ const UserMenuClientWrapper: FC<UserMenuClientWrapperProps> = ({
           content={
             <div className="grid grid-cold-1 md:grid-cols-2 lg:grid-cols-3 gap-16 py-8 px-4 md:px-2">
               {userOwnRides?.map((listing, i) => (
-                <div
+                <ListingCard
+                  listing={listing}
                   key={i}
-                  onClick={() => {
+                  action={() => {
                     setOwnRidesVisible(false);
                     userMenuState.onClose();
                   }}
-                >
-                  <ListingCard listing={listing} />
-                </div>
+                />
               ))}
             </div>
           }
@@ -82,15 +99,14 @@ const UserMenuClientWrapper: FC<UserMenuClientWrapperProps> = ({
           content={
             <div className="grid grid-cold-1 md:grid-cols-2 lg:grid-cols-3 gap-16 py-8 px-4 md:px-2">
               {userParticipations?.map((listing, i) => (
-                <div
+                <ListingCard
+                  listing={listing}
                   key={i}
-                  onClick={() => {
+                  action={() => {
                     setParticipationRidesVisible(false);
                     userMenuState.onClose();
                   }}
-                >
-                  <ListingCard listing={listing} />
-                </div>
+                />
               ))}
             </div>
           }

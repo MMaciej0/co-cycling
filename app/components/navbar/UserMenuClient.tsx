@@ -25,7 +25,7 @@ const UserMenuClient: FC<UserMenuClientProps> = ({
   return (
     <div className="relative bg-primary" ref={userMenuRef}>
       <div
-        onClick={userMenuState.onOpen}
+        onClick={() => userMenuState.forceStatus(!userMenuState.isOpen)}
         className="relative group cursor-pointer transition duration-200"
       >
         <BiSolidChevronDown

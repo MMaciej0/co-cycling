@@ -7,12 +7,14 @@ type State = {
 type Actions = {
   onOpen: () => void;
   onClose: () => void;
+  forceStatus: (status: boolean) => void;
 };
 
 const useUserMenu = create<State & Actions>((set) => ({
   isOpen: false,
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false }),
+  forceStatus: (status) => set({ isOpen: status }),
 }));
 
 export default useUserMenu;

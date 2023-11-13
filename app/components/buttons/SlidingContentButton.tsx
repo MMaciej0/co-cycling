@@ -4,6 +4,7 @@ import { FC, ReactNode, useEffect, useState } from 'react';
 import { IconType } from 'react-icons';
 import Button from './Button';
 import SlidingContent from '../SlidingContent';
+import { useRouter } from 'next/navigation';
 
 interface SlidingContentButton {
   buttonLabel: string;
@@ -28,6 +29,7 @@ const SlidingContentButton: FC<SlidingContentButton> = ({
   setExternalState,
   contentLogo,
 }) => {
+  const router = useRouter();
   const [isVisible, setIsvisible] = useState(
     externalState !== undefined ? externalState : false
   );
@@ -39,6 +41,7 @@ const SlidingContentButton: FC<SlidingContentButton> = ({
   }, [externalState]);
 
   const handleOpen = () => {
+    router.refresh();
     if (externalState !== undefined && setExternalState) {
       return setExternalState(true);
     }
@@ -78,3 +81,4 @@ const SlidingContentButton: FC<SlidingContentButton> = ({
 };
 
 export default SlidingContentButton;
+1;

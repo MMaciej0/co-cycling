@@ -42,16 +42,29 @@ const getUserListings = async (
     },
     favourites: async () => {
       try {
-        const ownedListings = await prisma.listing.findMany({
+        const favoriteIds = await prisma.user.findUnique({
           where: {
-            ownerId: userId,
+            id: userId,
+          },
+          select: {
+            favoriteIds: true,
+          },
+        });
+
+        if (!favoriteIds) return null;
+
+        const favoritedListings = await prisma.listing.findMany({
+          where: {
+            id: {
+              in: favoriteIds.favoriteIds,
+            },
           },
           include: {
             owner: true,
           },
         });
 
-        return ownedListings;
+        return favoritedListings;
       } catch (error: any) {
         throw new Error(error);
       }

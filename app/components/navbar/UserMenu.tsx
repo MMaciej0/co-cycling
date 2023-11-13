@@ -13,11 +13,16 @@ const UserMenu: FC<UserMenuProps> = async ({ currentUser }) => {
     currentUser.id,
     'participations'
   );
+  const userFavoritedListings = await getUserListings(
+    currentUser.id,
+    'favourites'
+  );
 
   return (
     <UserMenuClientWrapper
       userOwnRides={userOwnRides}
       userParticipations={userParticipations}
+      userFavoritedListings={userFavoritedListings}
       currentUser={currentUser}
     />
   );
