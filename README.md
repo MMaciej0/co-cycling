@@ -17,4 +17,4 @@ As cycling enthusiast, I struggle with the problem that sometimes I cannot find 
 
 ## Technologies
 
-- [![React with Next framoweork and Typescipt](https://skillicons.dev/icons?i=react,nextjs,ts)](https://skillicons.dev)
+- ### React with Next framoweork and Typescipt(https://skillicons.dev/icons?i=react,nextjs,ts)](https://skillicons.dev)
