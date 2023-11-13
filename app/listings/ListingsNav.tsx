@@ -18,6 +18,7 @@ const ListingsNav: FC<ListingNavProps> = ({ listings }) => {
     <>
       <div className="lg:hidden">
         <DropdownButton
+          disabled={!listings || !listings.length}
           isOpen={filtersDropdown.isOpen}
           forceStatus={filtersDropdown.forceStatus}
           label="Filters & Sorting"

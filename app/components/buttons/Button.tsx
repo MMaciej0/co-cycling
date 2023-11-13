@@ -39,7 +39,7 @@ const Button: React.FC<ButtonProps> = ({
           : 'bg-highlight/70 text-primary'
       } hover:bg-highlight transition duration-300 ${
         disabled && 'cursor-not-allowed bg-highlight/20 hover:bg-highlight/20'
-      }`}
+      } ${disabled && outline && 'opacity-20 cursor-not-allowed'}`}
     >
       {Icon && (
         <Icon

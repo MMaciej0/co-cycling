@@ -46,6 +46,7 @@ const ListingsNavButtons: FC<NavButtonsProps> = ({ listings }) => {
     <>
       <div className="mb-4">
         <DropdownButton
+          disabled={!listings || !listings.length}
           label="Max Distance"
           listContent={
             <>
@@ -66,6 +67,7 @@ const ListingsNavButtons: FC<NavButtonsProps> = ({ listings }) => {
       </div>
       <div className="mb-4">
         <DropdownButton
+          disabled={!listings || !listings.length}
           label="Ride Type"
           listContent={
             <>
@@ -82,6 +84,7 @@ const ListingsNavButtons: FC<NavButtonsProps> = ({ listings }) => {
       </div>
       <div className="mb-4">
         <DropdownButton
+          disabled={!listings || !listings.length}
           label="Sorting"
           listContent={
             <>
@@ -101,7 +104,7 @@ const ListingsNavButtons: FC<NavButtonsProps> = ({ listings }) => {
           label="Apply"
           onClick={handleSubmit}
           type="submit"
-          disabled={isLoading}
+          disabled={isLoading || !listings || !listings.length}
         />
       </div>
     </>

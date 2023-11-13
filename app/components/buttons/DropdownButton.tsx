@@ -11,6 +11,7 @@ type DropdownButtonProps = {
   isOpen?: boolean;
   forceStatus?: (status: boolean) => void;
   small?: boolean;
+  disabled?: boolean;
 };
 
 const DropdownButton: FC<DropdownButtonProps> = ({
@@ -19,6 +20,7 @@ const DropdownButton: FC<DropdownButtonProps> = ({
   isOpen,
   forceStatus,
   small,
+  disabled,
 }) => {
   const [listVisible, setListVisible] = useState(
     isOpen !== undefined ? isOpen : false
@@ -64,6 +66,7 @@ const DropdownButton: FC<DropdownButtonProps> = ({
           outline
           active={listVisible}
           small={small}
+          disabled={disabled}
         />
         <ul
           className={`${
