@@ -19,7 +19,7 @@ const FavoriteButton: FC<FavoriteButtonProps> = ({ listingId }) => {
   const user = session?.user as SafeUser;
 
   const hasFavorited = useMemo(() => {
-    return user?.favoriteIds.includes(listingId);
+    return user?.favoriteIds?.includes(listingId);
   }, [user?.favoriteIds, listingId]);
 
   const toggleFavorite = async () => {
