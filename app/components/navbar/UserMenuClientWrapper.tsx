@@ -9,6 +9,7 @@ import { SafeUser } from '@/app/types';
 import Button from '../buttons/Button';
 import { signOut } from 'next-auth/react';
 import useUserMenu from '@/app/hooks/useUserMenu';
+import EmptyStateInfo from '../EmptyStateInfo';
 
 interface UserMenuClientWrapperProps {
   userOwnRides: Listing[] | null;
@@ -49,18 +50,22 @@ const UserMenuClientWrapper: FC<UserMenuClientWrapperProps> = ({
           externalState={userFavoritesVisible}
           setExternalState={setUserFavoritesVisible}
           content={
-            <div className="grid grid-cold-1 md:grid-cols-2 lg:grid-cols-3 gap-16 py-8 px-4 md:px-2">
-              {userFavoritedListings?.map((listing, i) => (
-                <ListingCard
-                  listing={listing}
-                  key={i}
-                  action={() => {
-                    setUserFavoritesVisible(false);
-                    userMenuState.onClose();
-                  }}
-                />
-              ))}
-            </div>
+            !userFavoritedListings?.length ? (
+              <EmptyStateInfo heading="You have not added any rides to your favorites yet." />
+            ) : (
+              <div className="grid grid-cold-1 md:grid-cols-2 lg:grid-cols-3 gap-16 py-8 px-4 md:px-2">
+                {userFavoritedListings.map((listing, i) => (
+                  <ListingCard
+                    listing={listing}
+                    key={i}
+                    action={() => {
+                      setUserFavoritesVisible(false);
+                      userMenuState.onClose();
+                    }}
+                  />
+                ))}
+              </div>
+            )
           }
         />
       </li>
@@ -73,18 +78,22 @@ const UserMenuClientWrapper: FC<UserMenuClientWrapperProps> = ({
           heading="Own Rides"
           buttonLabel="Own Rides"
           content={
-            <div className="grid grid-cold-1 md:grid-cols-2 lg:grid-cols-3 gap-16 py-8 px-4 md:px-2">
-              {userOwnRides?.map((listing, i) => (
-                <ListingCard
-                  listing={listing}
-                  key={i}
-                  action={() => {
-                    setOwnRidesVisible(false);
-                    userMenuState.onClose();
-                  }}
-                />
-              ))}
-            </div>
+            !userOwnRides?.length ? (
+              <EmptyStateInfo heading="You have not created any rides yet." />
+            ) : (
+              <div className="grid grid-cold-1 md:grid-cols-2 lg:grid-cols-3 gap-16 py-8 px-4 md:px-2">
+                {userOwnRides.map((listing, i) => (
+                  <ListingCard
+                    listing={listing}
+                    key={i}
+                    action={() => {
+                      setOwnRidesVisible(false);
+                      userMenuState.onClose();
+                    }}
+                  />
+                ))}
+              </div>
+            )
           }
         />
       </li>
@@ -97,18 +106,22 @@ const UserMenuClientWrapper: FC<UserMenuClientWrapperProps> = ({
           heading="Participations"
           buttonLabel="Participations"
           content={
-            <div className="grid grid-cold-1 md:grid-cols-2 lg:grid-cols-3 gap-16 py-8 px-4 md:px-2">
-              {userParticipations?.map((listing, i) => (
-                <ListingCard
-                  listing={listing}
-                  key={i}
-                  action={() => {
-                    setParticipationRidesVisible(false);
-                    userMenuState.onClose();
-                  }}
-                />
-              ))}
-            </div>
+            !userParticipations?.length ? (
+              <EmptyStateInfo heading="You are not a participant in any ride." />
+            ) : (
+              <div className="grid grid-cold-1 md:grid-cols-2 lg:grid-cols-3 gap-16 py-8 px-4 md:px-2">
+                {userParticipations.map((listing, i) => (
+                  <ListingCard
+                    listing={listing}
+                    key={i}
+                    action={() => {
+                      setParticipationRidesVisible(false);
+                      userMenuState.onClose();
+                    }}
+                  />
+                ))}
+              </div>
+            )
           }
         />
       </li>
