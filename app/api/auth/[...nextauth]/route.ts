@@ -58,7 +58,7 @@ export const authOptions: NextAuthOptions = {
       };
     },
     jwt: async ({ token, user, session, trigger }) => {
-      if (trigger === 'update') {
+      if (trigger === 'update' && session?.favoriteIds) {
         token.favoriteIds = session.favoriteIds;
 
         await prisma.user.update({
@@ -67,6 +67,19 @@ export const authOptions: NextAuthOptions = {
           },
           data: {
             favoriteIds: token.favoriteIds as string[],
+          },
+        });
+      }
+
+      if (trigger === 'update' && session?.name) {
+        token.name = session.name;
+
+        await prisma.user.update({
+          where: {
+            id: token.id as string,
+          },
+          data: {
+            name: token.name as string,
           },
         });
       }

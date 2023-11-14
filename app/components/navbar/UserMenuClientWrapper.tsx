@@ -10,6 +10,7 @@ import Button from '../buttons/Button';
 import { signOut } from 'next-auth/react';
 import useUserMenu from '@/app/hooks/useUserMenu';
 import EmptyStateInfo from '../EmptyStateInfo';
+import UserMenuProfileContent from './UserMenuProfileContent';
 
 interface UserMenuClientWrapperProps {
   userOwnRides: Listing[] | null;
@@ -38,7 +39,7 @@ const UserMenuClientWrapper: FC<UserMenuClientWrapperProps> = ({
           border={false}
           heading="Profile"
           buttonLabel="Profile"
-          content={<div>TODO</div>}
+          content={<UserMenuProfileContent />}
         />
       </li>
       <li className="border-b border-light">
