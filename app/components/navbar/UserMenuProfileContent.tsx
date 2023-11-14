@@ -26,6 +26,7 @@ const UserMenuProfileContent = () => {
     update({
       name,
     });
+    toast('Your name has been changed.');
   };
 
   return (
